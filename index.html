@@ -1,0 +1,3785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLOVEX: Enhanced Algorithmic Multi-Currency Stablecoin - Investment Whitepaper v5.0</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== VARIABLES & RESET ===== */
+        :root {
+            --primary-black: #000000;
+            --primary-white: #ffffff;
+            --accent-blue: #2563eb;
+            --accent-green: #059669;
+            --accent-orange: #d97706;
+            --accent-purple: #7c3aed;
+            --accent-red: #dc2626;
+            --accent-cyan: #0891b2;
+            --accent-gold: #f59e0b;
+            --text-primary: #000000;
+            --text-secondary: #374151;
+            --border-light: #d1d5db;
+            --bg-light: #f9fafb;
+            --bg-dark: #000000;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --success: #059669;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.7;
+            color: var(--text-primary);
+            background: var(--primary-white);
+            overflow-x: hidden;
+            counter-reset: section;
+        }
+
+        /* ===== COVER ===== */
+        .cover {
+            min-height: 100vh;
+            background: var(--primary-white);
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 100px 40px 60px;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 3px solid var(--accent-blue);
+        }
+
+        .cover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(5, 150, 105, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .cover-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .logo {
+            font-size: clamp(48px, 10vw, 96px);
+            font-weight: 900;
+            letter-spacing: 0.15em;
+            margin: 40px 0 20px 0;
+            text-transform: uppercase;
+            color: var(--text-primary);
+        }
+
+        .cover h2 {
+            font-size: clamp(20px, 4vw, 32px);
+            font-weight: 300;
+            letter-spacing: 0.08em;
+            margin: 20px 0;
+            color: var(--text-primary);
+        }
+
+        .cover-description {
+            font-size: clamp(14px, 2vw, 18px);
+            line-height: 1.8;
+            max-width: 900px;
+            margin: 40px auto;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .cover-meta {
+            margin-top: 60px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            letter-spacing: 0.05em;
+        }
+
+        .cover-meta strong {
+            color: var(--text-primary);
+            display: block;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .investment-highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .highlight-card {
+            background: var(--bg-light);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow);
+        }
+
+        .highlight-card i {
+            font-size: 24px;
+            color: var(--accent-blue);
+            margin-bottom: 10px;
+        }
+
+        .highlight-card h4 {
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .highlight-card p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* ===== NAVIGATION ===== */
+        .nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--primary-white);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 15px 0;
+            box-shadow: var(--shadow);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .nav-logo:hover {
+            color: var(--accent-blue);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        /* ===== MOBILE NAVIGATION ===== */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+            transition: transform 0.3s;
+            z-index: 1001;
+        }
+
+        .mobile-menu-btn.active {
+            transform: rotate(90deg);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background: var(--primary-white);
+                flex-direction: column;
+                padding: 20px;
+                gap: 15px;
+                display: none;
+                border-top: 1px solid var(--border-light);
+                box-shadow: var(--shadow-lg);
+                z-index: 999;
+            }
+            
+            .nav-links.active {
+                display: flex;
+                animation: slideDown 0.3s ease;
+            }
+
+            .nav-links a {
+                padding: 12px 0;
+                border-bottom: 1px solid var(--border-light);
+                font-size: 16px;
+                text-align: center;
+                white-space: normal;
+            }
+
+            .nav-links a:last-child {
+                border-bottom: none;
+            }
+
+            /* Adjustment to prevent title from being covered */
+            .cover {
+                padding-top: 100px;
+            }
+
+            .logo {
+                margin-top: 20px;
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 100px 40px 60px;
+            background: var(--primary-white);
+            color: var(--text-primary);
+        }
+
+        /* ===== TYPOGRAPHY ===== */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            margin-top: 48px;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+        }
+
+        h1 {
+            font-size: 36px;
+            border-bottom: 3px solid var(--accent-blue);
+            padding-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            counter-increment: section;
+        }
+
+        h1::before {
+            content: counter(section) ". ";
+        }
+
+        h2 {
+            font-size: 28px;
+            border-bottom: 2px solid var(--border-light);
+            padding-bottom: 12px;
+            color: var(--accent-blue);
+        }
+
+        h3 {
+            font-size: 22px;
+            color: var(--text-primary);
+        }
+
+        h4 {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-top: 24px;
+        }
+
+        p {
+            margin-bottom: 16px;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        strong {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* ===== LISTS ===== */
+        ul, ol {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+
+        /* ===== TABLES AND RESPONSIVE CONTAINERS ===== */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin: 30px 0;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            min-width: 650px;
+            border: 1px solid var(--border-light);
+        }
+
+        thead {
+            background: var(--accent-blue);
+            color: var(--primary-white);
+        }
+
+        th {
+            padding: 16px 12px;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 12px;
+        }
+
+        td {
+            padding: 14px 12px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        tbody tr:hover {
+            background: var(--bg-light);
+            transition: background 0.2s ease;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .highlight-row {
+            background: rgba(37, 99, 235, 0.05) !important;
+            font-weight: 600;
+        }
+
+        /* ===== INFORMATION BOXES ===== */
+        .box {
+            padding: 24px;
+            margin: 32px 0;
+            border-radius: 12px;
+            border-left: 4px solid;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .info {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.03) 0%, rgba(37, 99, 235, 0.08) 100%);
+            border-color: var(--accent-blue);
+        }
+
+        .warning {
+            background: linear-gradient(135deg, rgba(217, 119, 6, 0.03) 0%, rgba(217, 119, 6, 0.08) 100%);
+            border-color: var(--warning);
+        }
+
+        .critical {
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.03) 0%, rgba(220, 38, 38, 0.08) 100%);
+            border-color: var(--danger);
+        }
+
+        .success {
+            background: linear-gradient(135deg, rgba(5, 150, 105, 0.03) 0%, rgba(5, 150, 105, 0.08) 100%);
+            border-color: var(--success);
+        }
+
+        .investment {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.03) 0%, rgba(245, 158, 11, 0.08) 100%);
+            border-color: var(--accent-gold);
+        }
+
+        .algorithmic {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.03) 0%, rgba(124, 58, 237, 0.08) 100%);
+            border-color: var(--accent-purple);
+        }
+
+        .gold {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(245, 158, 11, 0.1) 100%);
+            border-color: var(--accent-gold);
+        }
+
+        .index {
+            background: linear-gradient(135deg, rgba(5, 150, 105, 0.05) 0%, rgba(5, 150, 105, 0.1) 100%);
+            border-color: var(--success);
+        }
+
+        .box h4 {
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .box h4 i {
+            font-size: 20px;
+        }
+
+        /* ===== CHARTS ===== */
+        .chart-container {
+            margin: 40px 0;
+            padding: 30px;
+            background: var(--primary-white);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        .chart-container canvas {
+            max-height: 400px !important;
+            flex: 1;
+        }
+
+        .chart-loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            margin-top: 80px;
+            padding: 40px;
+            background: var(--bg-light);
+            color: var(--text-primary);
+            text-align: center;
+            border-top: 3px solid var(--accent-blue);
+        }
+
+        /* ===== DISCLAIMER ===== */
+        .disclaimer {
+            background: var(--bg-light);
+            border: 2px solid var(--danger);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 40px 0;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .disclaimer h3 {
+            color: var(--danger);
+            margin-top: 0;
+        }
+
+        /* ===== PROGRESS INDICATOR ===== */
+        .progress-container {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(0, 0, 0, 0.1);
+            z-index: 999;
+        }
+
+        .progress-bar {
+            height: 3px;
+            background: var(--accent-blue);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        /* ===== BACK TO TOP ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--accent-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            z-index: 999;
+        }
+
+        .back-to-top:hover {
+            transform: scale(1.1);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+        }
+
+        /* ===== TIMELINE ===== */
+        .timeline {
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 20px;
+            width: 2px;
+            background: var(--accent-blue);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+            padding-left: 60px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 5px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--accent-blue);
+            border: 3px solid var(--primary-white);
+            box-shadow: 0 0 0 3px var(--accent-blue);
+        }
+
+        .timeline-date {
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin-bottom: 5px;
+        }
+
+        .timeline-content {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        /* ===== INVESTMENT CARDS ===== */
+        .investment-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .investment-card {
+            background: var(--primary-white);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-light);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .investment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .investment-card h4 {
+            color: var(--accent-blue);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .investment-card .roi {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--success);
+            margin: 10px 0;
+        }
+
+        .investment-card .scenario {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+
+        /* ===== INVESTOR HIGHLIGHT ===== */
+        .investor-highlight {
+            background: linear-gradient(135deg, rgba(5, 150, 105, 0.03) 0%, rgba(5, 150, 105, 0.08) 100%);
+            border-left: 4px solid var(--success);
+            padding: 24px;
+            margin: 32px 0;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        /* ===== CODE BLOCKS ===== */
+        pre {
+            background: var(--bg-light);
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            margin: 20px 0;
+        }
+
+        /* ===== MECHANISM EXPLANATION ===== */
+        .mechanism {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.03) 0%, rgba(124, 58, 237, 0.08) 100%);
+            border-left: 4px solid var(--accent-purple);
+            padding: 24px;
+            margin: 32px 0;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        /* ===== PHASED APPROACH ===== */
+        .phase-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .phase-card {
+            background: var(--primary-white);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .phase-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .phase-1::before {
+            background: var(--accent-red);
+        }
+
+        .phase-2::before {
+            background: var(--warning);
+        }
+
+        .phase-3::before {
+            background: var(--success);
+        }
+
+        .phase-number {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .phase-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .phase-features {
+            list-style: none;
+            padding-left: 0;
+            margin: 15px 0;
+        }
+
+        .phase-features li {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .phase-features li i {
+            color: var(--success);
+            margin-top: 2px;
+        }
+
+        /* ===== POSITIONING EXPLANATION ===== */
+        .positioning-explanation {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.03) 0%, rgba(37, 99, 235, 0.08) 100%);
+            border-left: 4px solid var(--accent-blue);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .market-timeline {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* ===== NEW PROJECT CARDS ===== */
+        .project-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .project-card {
+            background: var(--primary-white);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-light);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+        }
+
+        .gold-project::before {
+            background: var(--accent-gold);
+        }
+
+        .index-project::before {
+            background: var(--success);
+        }
+
+        .project-logo {
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .project-tagline {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .project-features {
+            list-style: none;
+            padding-left: 0;
+            margin: 20px 0;
+        }
+
+        .project-features li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .project-features li i {
+            color: var(--success);
+            margin-top: 2px;
+        }
+
+        .project-advantages {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .project-advantages h4 {
+            margin-bottom: 15px;
+            color: var(--accent-blue);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .nav-links {
+                gap: 15px;
+            }
+            
+            .nav-links a {
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 80px 20px 40px;
+            }
+
+            .nav-content {
+                padding: 0 20px;
+            }
+
+            h1 { 
+                font-size: 28px; 
+                padding-bottom: 12px;
+                margin-top: 32px;
+                margin-bottom: 20px;
+            }
+            
+            h2 { 
+                font-size: 22px; 
+                padding-bottom: 10px;
+                margin-top: 28px;
+                margin-bottom: 18px;
+            }
+            
+            h3 { 
+                font-size: 18px; 
+                margin-top: 24px;
+                margin-bottom: 16px;
+            }
+
+            .table-container {
+                border: 1px solid var(--border-light);
+                border-radius: 8px;
+                margin: 20px 0;
+            }
+            
+            table {
+                font-size: 12px;
+                min-width: 650px;
+            }
+
+            th, td {
+                padding: 10px 8px;
+                white-space: nowrap;
+            }
+
+            th {
+                font-size: 11px;
+            }
+
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 40px;
+                height: 40px;
+            }
+
+            .investment-highlights {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                margin-top: 30px;
+            }
+
+            .investment-cards {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .phase-container {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .project-cards {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .timeline::before {
+                left: 15px;
+            }
+
+            .timeline-item {
+                padding-left: 50px;
+                margin-bottom: 30px;
+            }
+
+            .chart-container {
+                padding: 20px;
+                min-height: 300px;
+                margin: 30px 0;
+            }
+            
+            /* Scrollbar styling for mobile */
+            .table-container::-webkit-scrollbar {
+                height: 6px;
+            }
+            
+            .table-container::-webkit-scrollbar-thumb {
+                background: var(--accent-blue);
+                border-radius: 3px;
+            }
+
+            /* Improve spacing on mobile */
+            .box {
+                padding: 20px;
+                margin: 24px 0;
+            }
+
+            .cover {
+                padding: 100px 20px 40px;
+                min-height: 100vh;
+            }
+
+            .cover-description {
+                margin: 30px auto;
+            }
+
+            .cover-meta {
+                margin-top: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content {
+                padding: 70px 15px 30px;
+            }
+
+            .nav-content {
+                padding: 0 15px;
+            }
+
+            h1 { 
+                font-size: 24px; 
+            }
+            
+            h2 { 
+                font-size: 20px; 
+            }
+            
+            h3 { 
+                font-size: 16px; 
+            }
+
+            p, li {
+                font-size: 14px;
+            }
+
+            .chart-container {
+                padding: 15px;
+                min-height: 250px;
+            }
+
+            .highlight-card {
+                padding: 15px;
+            }
+
+            .investment-card {
+                padding: 20px;
+            }
+
+            .project-card {
+                padding: 20px;
+            }
+
+            .cover {
+                padding: 100px 15px 30px;
+            }
+        }
+
+        /* ===== PRINT STYLES ===== */
+        @media print {
+            /* Reset for printing */
+            * {
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            /* Hide unwanted elements when printing */
+            .nav-container,
+            .progress-container,
+            .back-to-top,
+            .mobile-menu-btn {
+                display: none !important;
+            }
+            
+            /* General printing configuration */
+            body {
+                font-size: 12pt !important;
+                line-height: 1.4 !important;
+                color: #000 !important;
+                background: white !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            
+            /* Cover for printing */
+            .cover {
+                min-height: auto !important;
+                height: 100vh !important;
+                page-break-after: always !important;
+                background: white !important;
+                color: #000 !important;
+                position: relative !important;
+                padding: 2cm !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: center !important;
+                border-bottom: 3px solid #2563eb !important;
+            }
+            
+            .cover::before {
+                display: none !important;
+            }
+            
+            .logo {
+                color: #000 !important;
+                margin: 1cm 0 0.5cm !important;
+                font-size: 72pt !important;
+            }
+            
+            .cover h2 {
+                color: #000 !important;
+                font-size: 18pt !important;
+            }
+            
+            .cover-description {
+                color: #000 !important;
+                font-size: 12pt !important;
+                margin: 1cm auto !important;
+            }
+            
+            .cover-meta {
+                color: #000 !important;
+                margin-top: 1.5cm !important;
+            }
+            
+            .highlight-card {
+                background: #f9fafb !important;
+                border: 1px solid #d1d5db !important;
+                page-break-inside: avoid !important;
+            }
+            
+            /* Main content for printing */
+            .content {
+                padding: 1.5cm !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+            }
+            
+            /* Typography for printing */
+            h1, h2, h3, h4, h5, h6 {
+                color: #000 !important;
+                page-break-after: avoid !important;
+            }
+            
+            h1 {
+                font-size: 24pt !important;
+                border-bottom: 2px solid #2563eb !important;
+                margin-top: 1.5cm !important;
+            }
+            
+            h2 {
+                font-size: 18pt !important;
+                border-bottom: 1px solid #ddd !important;
+            }
+            
+            h3 {
+                font-size: 16pt !important;
+            }
+            
+            p, li {
+                font-size: 12pt !important;
+                line-height: 1.6 !important;
+            }
+            
+            /* Tables for printing */
+            .table-container {
+                overflow: visible !important;
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+                margin: 1cm 0 !important;
+                page-break-inside: avoid !important;
+            }
+            
+            table {
+                font-size: 10pt !important;
+                min-width: 100% !important;
+                border: 1px solid #ddd !important;
+            }
+            
+            thead {
+                background: #2563eb !important;
+                color: white !important;
+            }
+            
+            th, td {
+                padding: 8px 6px !important;
+                border-bottom: 1px solid #ddd !important;
+            }
+            
+            /* Charts for printing */
+            .chart-container {
+                page-break-inside: avoid !important;
+                border: 1px solid #ddd !important;
+                box-shadow: none !important;
+                margin: 1cm 0 !important;
+                padding: 1cm !important;
+            }
+            
+            .chart-title {
+                font-size: 14pt !important;
+                color: #000 !important;
+            }
+            
+            /* Information boxes for printing */
+            .box {
+                page-break-inside: avoid !important;
+                border-left: 4px solid !important;
+                box-shadow: none !important;
+                margin: 1cm 0 !important;
+                padding: 0.8cm !important;
+                border-radius: 0 !important;
+            }
+            
+            .info {
+                background: #f0f7ff !important;
+                border-color: #2563eb !important;
+            }
+            
+            .warning {
+                background: #fff7ed !important;
+                border-color: #d97706 !important;
+            }
+            
+            .critical {
+                background: #fef2f2 !important;
+                border-color: #dc2626 !important;
+            }
+            
+            .success {
+                background: #f0fdf4 !important;
+                border-color: #059669 !important;
+            }
+            
+            .investment {
+                background: #fffbeb !important;
+                border-color: #f59e0b !important;
+            }
+            
+            .algorithmic {
+                background: #faf5ff !important;
+                border-color: #7c3aed !important;
+            }
+
+            .gold {
+                background: #fffbeb !important;
+                border-color: #f59e0b !important;
+            }
+
+            .index {
+                background: #f0fdf4 !important;
+                border-color: #059669 !important;
+            }
+            
+            /* Timeline for printing */
+            .timeline {
+                margin: 1cm 0 !important;
+            }
+            
+            .timeline::before {
+                background: #2563eb !important;
+            }
+            
+            .timeline-item::before {
+                background: #2563eb !important;
+                border: 2px solid white !important;
+                box-shadow: 0 0 0 2px #2563eb !important;
+            }
+            
+            .timeline-content {
+                background: #f9fafb !important;
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+            }
+            
+            /* Cards for printing */
+            .investment-card,
+            .phase-card,
+            .project-card {
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+                page-break-inside: avoid !important;
+                margin: 0.5cm 0 !important;
+            }
+            
+            /* Footer for printing */
+            .footer {
+                background: #f9fafb !important;
+                color: #000 !important;
+                margin-top: 2cm !important;
+                padding: 1cm !important;
+                page-break-before: always !important;
+            }
+            
+            /* Disclaimer for printing */
+            .disclaimer {
+                background: #fef2f2 !important;
+                border: 2px solid #dc2626 !important;
+                page-break-inside: avoid !important;
+            }
+            
+            /* Links for printing */
+            a {
+                color: #000 !important;
+                text-decoration: underline;
+            }
+            
+            /* Control page breaks */
+            section {
+                page-break-before: auto;
+                page-break-after: auto;
+                page-break-inside: avoid;
+            }
+            
+            /* Ensure elements don't break */
+            .investment-highlights,
+            .phase-container,
+            .investment-cards,
+            .project-cards {
+                page-break-inside: avoid !important;
+            }
+            
+            /* Improve general spacing for printing */
+            ul, ol {
+                margin: 0.5cm 0 !important;
+            }
+            
+            /* Adjust section counter */
+            h1::before {
+                color: #000 !important;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        .section-hidden {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+/* ===== FOOTER STYLES ===== */
+.footer-brand {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.footer-logo {
+    font-size: 48px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+}
+
+.footer-tagline {
+    font-size: 18px;
+    color: var(--text-secondary);
+    font-weight: 300;
+    margin-top: 10px;
+}
+
+.footer-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.footer-disclaimer {
+    margin-bottom: 20px;
+    padding: 20px;
+    background: var(--primary-white);
+    border-radius: 8px;
+    border: 1px solid var(--border-light);
+}
+
+.footer-meta {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+/* Responsive adjustments for footer */
+@media (max-width: 768px) {
+    .footer-logo {
+        font-size: 36px;
+    }
+    
+    .footer h2 {
+        font-size: 20px;
+    }
+    
+    .footer-tagline {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-logo {
+        font-size: 32px;
+    }
+    
+    .footer h2 {
+        font-size: 18px;
+    }
+    
+    .footer-tagline {
+        font-size: 14px;
+    }
+}
+/* ===== FOOTER STYLES ===== */
+.footer-brand {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.footer-brand .logo {
+    font-size: clamp(48px, 10vw, 96px);
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    margin: 20px 0;
+}
+
+.footer-subtitle {
+    font-size: clamp(20px, 4vw, 32px);
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    color: var(--text-primary);
+    margin: 20px 0;
+}
+
+.footer-tagline {
+    font-size: 18px;
+    color: var(--text-secondary);
+    font-weight: 300;
+    margin-top: 10px;
+}
+
+.footer-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.footer-disclaimer {
+    margin-bottom: 20px;
+    padding: 20px;
+    background: var(--primary-white);
+    border-radius: 8px;
+    border: 1px solid var(--border-light);
+}
+
+.footer-meta {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+/* Responsive adjustments for footer */
+@media (max-width: 768px) {
+    .footer-brand .logo {
+        font-size: clamp(48px, 10vw, 96px);
+    }
+    
+    .footer-subtitle {
+        font-size: clamp(20px, 4vw, 32px);
+    }
+    
+    .footer-tagline {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-brand .logo {
+        font-size: clamp(48px, 10vw, 96px);
+    }
+    
+    .footer-subtitle {
+        font-size: clamp(20px, 4vw, 32px);
+    }
+    
+    .footer-tagline {
+        font-size: 14px;
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- NAVIGATION -->
+    <div class="nav-container">
+        <div class="nav-content">
+            <div class="nav-logo" id="navLogo">GLVX</div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-links" id="navLinks">
+                <a href="#executive">Executive Summary</a>
+                <a href="#phased">Phased Approach</a>
+                <a href="#mechanism">Algorithmic Mechanism</a>
+                <a href="#investment">Investment Thesis</a>
+                <a href="#gcbi">GCBI</a>
+                <a href="#tokenomics">Tokenomics</a>
+                <a href="#protocol">Protocol Design</a>
+                <a href="#future-projects">Future Projects</a>
+                <a href="#risks">Risk Analysis</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROGRESS INDICATOR -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- COVER -->
+    <div class="cover">
+        <div class="cover-content">
+            <div class="logo">GLOVEX</div>
+            <h2>Global Value Exchange</h2>
+            <p class="cover-description">
+                <strong>The World's First Hybrid Algorithmic Multi-Currency Stablecoin</strong><br>
+                Combining algorithmic efficiency with progressive collateralization<br>
+                to create a new standard in decentralized stable value, backed by the world's<br>
+                most liquid fiat currencies with lower volatility than any single currency.
+            </p>
+
+            <div class="investment-highlights">
+                <div class="highlight-card">
+                    <i class="fas fa-layer-group"></i>
+                    <h4>Multi-Currency Backing</h4>
+                    <p>USD, EUR, CNY, JPY, GBP, CHF in one token</p>
+                </div>
+                <div class="highlight-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h4>Enhanced Safeguards</h4>
+                    <p>Circuit breakers and conservative parameters</p>
+                </div>
+                <div class="highlight-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h4>Proven Stability</h4>
+                    <p>1.52% volatility over 20 years backtest</p>
+                </div>
+                <div class="highlight-card">
+                    <i class="fas fa-balance-scale"></i>
+                    <h4>Risk-Mitigated Design</h4>
+                    <p>Learning from previous algorithmic failures</p>
+                </div>
+            </div>
+
+            <div class="cover-meta">
+                <strong>Enhanced Hybrid Algorithmic Stablecoin Whitepaper v5.0</strong>
+                October 12, 2025<br>
+                Network: Binance Smart Chain (BSC)<br>
+                Token: GLVX (BEP-20) - Target Price: 1 GCBI
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="content">
+        <!-- EXECUTIVE SUMMARY -->
+        <section id="executive" class="fade-in">
+            <h1>Executive Summary</h1>
+            
+            <p><strong>Engineering the Future of Global Value Stability.</strong> GLOVEX represents a next-generation algorithmic multi-currency stable token backed by a dynamically weighted basket of the world's most liquid fiat currencies. Through adaptive algorithmic mechanisms and progressive collateralization, it maintains intrinsic value stability across macroeconomic shifts, creating a resilient bridge between traditional finance and the decentralized digital economy.</p>
+
+            <p>Purpose-built for cross-border payments, foreign exchange, international trade, and institutional asset management, GLOVEX redefines what it means to hold a truly global digital currency. The protocol combines the capital efficiency of algorithmic design with the security of collateralization through a carefully structured three-phase evolution.</p>
+
+            <div class="critical">
+                <h4><i class="fas fa-exclamation-triangle"></i> CRITICAL DIFFERENTIATION FROM FAILED ALGORITHMIC STABLECOINS</h4>
+                <p><strong>GLOVEX implements an ENHANCED HYBRID approach combining algorithmic mechanisms with progressive collateralization:</strong></p>
+                <ul>
+                    <li>✅ <strong>ENHANCED SAFEGUARDS:</strong> Circuit breakers, multi-oracle system, conservative parameters</li>
+                    <li>✅ <strong>PHASED APPROACH:</strong> Algorithmic → Hybrid → Fully Collateralized</li>
+                    <li>✅ <strong>MULTI-CURRENCY FOUNDATION:</strong> Built on proven GCBI stability</li>
+                    <li>✅ <strong>CONSERVATIVE PARAMETERS:</strong> Maximum 5% supply change per operation</li>
+                    <li>✅ <strong>TRANSPARENT TREASURY:</strong> All operations visible on-chain</li>
+                    <li>❌ <strong>NO</strong> unsustainable yield promises like failed projects</li>
+                </ul>
+                <p><strong>LEARNING FROM HISTORY TO BUILD A SUSTAINABLE ALGORITHMIC STABLECOIN</strong></p>
+            </div>
+
+            <div class="box algorithmic">
+                <h4><i class="fas fa-bullseye"></i> Core Innovation: Enhanced Hybrid Stability Model</h4>
+                <p><strong>Unlike failed algorithmic stablecoins, GLOVEX combines algorithmic mechanisms with progressive collateralization and enhanced safeguards:</strong></p>
+                <ul>
+                    <li><strong>Enhanced Safeguards:</strong> Circuit breakers, multi-oracle system, conservative parameters</li>
+                    <li><strong>Phased Evolution:</strong> Three-phase approach with clear milestones</li>
+                    <li><strong>Multi-Currency Foundation:</strong> GCBI provides inherent stability</li>
+                    <li><strong>Conservative Parameters:</strong> Maximum 5% supply change per operation</li>
+                    <li><strong>Transparent Operations:</strong> All treasury actions visible on-chain</li>
+                </ul>
+            </div>
+
+            <h2>How GLOVEX Avoids Previous Algorithmic Failures</h2>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Failed Project</th>
+                            <th>Failure Reason</th>
+                            <th>GLOVEX Solution</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>UST/Terra</strong></td>
+                            <td>Excessive reliance on unsustainable yields</td>
+                            <td>No yield promises, focus on utility value</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Basis Cash</strong></td>
+                            <td>Complex multi-token system</td>
+                            <td>Simple single-token model</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Empty Set Dollar</strong></td>
+                            <td>Aggressive rebase mechanics</td>
+                            <td>Conservative treasury operations</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fei Protocol</strong></td>
+                            <td>Direct incentives causing volatility</td>
+                            <td>Gradual market operations</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- PHASED APPROACH -->
+        <section id="phased" class="section-hidden">
+            <h1>Phased Evolution Strategy</h1>
+
+            <div class="mechanism">
+                <h4><i class="fas fa-road"></i> Progressive Approach to Stability</h4>
+                <p>GLOVEX implements a three-phase evolution strategy that progressively increases stability and collateralization while minimizing risks associated with algorithmic stablecoins.</p>
+            </div>
+
+            <div class="phase-container">
+                <div class="phase-card phase-1">
+                    <div class="phase-number">PHASE 1</div>
+                    <div class="phase-title">Algorithmic Foundation</div>
+                    <p><strong>Timeline:</strong> Q1-Q2 2026</p>
+                    <p><strong>Investment Required:</strong> $0 (only gas fees)</p>
+                    <ul class="phase-features">
+                        <li><i class="fas fa-check"></i> Pure algorithmic mechanism</li>
+                        <li><i class="fas fa-check"></i> No collateral backing</li>
+                        <li><i class="fas fa-check"></i> Market-driven price discovery</li>
+                        <li><i class="fas fa-check"></i> Community building</li>
+                        <li><i class="fas fa-check"></i> GCBI reference only</li>
+                    </ul>
+                </div>
+
+                <div class="phase-card phase-2">
+                    <div class="phase-number">PHASE 2</div>
+                    <div class="phase-title">Hybrid Model</div>
+                    <p><strong>Timeline:</strong> Q3-Q4 2026</p>
+                    <p><strong>Investment Required:</strong> $100K-250K</p>
+                    <ul class="phase-features">
+                        <li><i class="fas fa-check"></i> 20-40% collateralization</li>
+                        <li><i class="fas fa-check"></i> Limited redemption mechanism</li>
+                        <li><i class="fas fa-check"></i> Oracle integration</li>
+                        <li><i class="fas fa-check"></i> First CEX listings</li>
+                        <li><i class="fas fa-check"></i> Revenue generation begins</li>
+                    </ul>
+                </div>
+
+                <div class="phase-card phase-3">
+                    <div class="phase-number">PHASE 3</div>
+                    <div class="phase-title">Full DAO Governance</div>
+                    <p><strong>Timeline:</strong> 2027+</p>
+                    <p><strong>Investment Required:</strong> $500K+</p>
+                    <ul class="phase-features">
+                        <li><i class="fas fa-check"></i> 100%+ collateralization</li>
+                        <li><i class="fas fa-check"></i> Complete redemption</li>
+                        <li><i class="fas fa-check"></i> DAO governance</li>
+                        <li><i class="fas fa-check"></i> Major CEX listings</li>
+                        <li><i class="fas fa-check"></i> Institutional adoption</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>Detailed Phase Comparison</h2>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Phase 1</th>
+                            <th>Phase 2</th>
+                            <th>Phase 3</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Collateralization</strong></td>
+                            <td>0%</td>
+                            <td>20-40%</td>
+                            <td>100%+</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Redemption</strong></td>
+                            <td>No</td>
+                            <td>Limited</td>
+                            <td>Full</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Governance</strong></td>
+                            <td>Team-led</td>
+                            <td>Community input</td>
+                            <td>DAO</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Regulatory Status</strong></td>
+                            <td>Index token</td>
+                            <td>Hybrid asset</td>
+                            <td>Regulated stablecoin</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Market Cap Target</strong></td>
+                            <td>$1M</td>
+                            <td>$10M</td>
+                            <td>$100M+</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="box info">
+                <h4><i class="fas fa-lightbulb"></i> Key Advantage: Risk-Mitigated Evolution</h4>
+                <p>The phased approach ensures that GLOVEX evolves responsibly:</p>
+                <ul>
+                    <li><strong>Progressive Validation:</strong> Each phase validates demand before advancing</li>
+                    <li><strong>Capital Efficiency:</strong> Minimal capital risk in early stages</li>
+                    <li><strong>Community Building:</strong> Strong community foundation before major investment</li>
+                    <li><strong>Regulatory Compliance:</strong> Progressive compliance as complexity increases</li>
+                    <li><strong>Market Adoption:</strong> Organic growth with clear value proposition</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ALGORITHMIC MECHANISM -->
+        <section id="mechanism" class="section-hidden">
+            <h1>Enhanced Algorithmic Stability Mechanism</h1>
+
+            <div class="mechanism">
+                <h4><i class="fas fa-cogs"></i> Conservative Treasury Design</h4>
+                <p>The GLOVX token uses an enhanced algorithmic treasury mechanism with conservative parameters and multiple safeguards to maintain price stability while avoiding the death spiral risks of previous algorithmic stablecoins.</p>
+            </div>
+
+            <h2>Enhanced Treasury Operations</h2>
+
+            <div class="chart-container">
+                <div class="chart-title">Enhanced Algorithmic Stability Mechanism</div>
+                <div class="chart-loading">Loading chart...</div>
+                <canvas id="mechanismChart"></canvas>
+            </div>
+
+            <h3>Key Improvements Over Previous Designs</h3>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">Safeguard 1: Conservative Parameters</div>
+                    <div class="timeline-content">
+                        <h4>Maximum 5% Supply Change</h4>
+                        <ul>
+                            <li>Prevents overshooting and death spirals</li>
+                            <li>Gradual adjustments maintain market confidence</li>
+                            <li>Multiple small operations instead of large swings</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Safeguard 2: Multi-Oracle System</div>
+                    <div class="timeline-content">
+                        <h4>Redundant Price Feeds</h4>
+                        <ul>
+                            <li>3+ independent oracle sources</li>
+                            <li>24-hour time-weighted average prices (TWAP)</li>
+                            <li>Manipulation-resistant price discovery</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Safeguard 3: Emergency Circuit Breakers</div>
+                    <div class="timeline-content">
+                        <h4>Automatic Pause Mechanisms</h4>
+                        <ul>
+                            <li>Price deviation >15% triggers pause</li>
+                            <li>24-hour cooldown period for extreme conditions</li>
+                            <li>Manual override for team intervention</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Safeguard 4: Progressive Collateralization</div>
+                    <div class="timeline-content">
+                        <h4>Hybrid Stability Model</h4>
+                        <ul>
+                            <li>Phase 2 introduces 20-40% collateral backing</li>
+                            <li>Gradual transition to full collateralization</li>
+                            <li>Reduces reliance on pure algorithmic mechanisms</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h2>Enhanced Smart Contract Implementation</h2>
+
+            <pre><code>// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract GLOVXEnhancedStablecoin is ERC20, Ownable {
+    uint256 public constant TARGET_PRICE = 1e18; // 1.00 GCBI
+    uint256 public constant MAX_SUPPLY_CHANGE = 500; // 5% maximum change
+    uint256 public constant CIRCUIT_BREAKER_THRESHOLD = 1500; // 15% deviation
+    
+    uint256 public treasuryBalance;
+    uint256 public lastOperationTime;
+    uint256 public operationInterval = 1 hours;
+    bool public circuitBreakerActive = false;
+    uint256 public circuitBreakerTime;
+    
+    // Multiple oracle addresses
+    address[] public priceOracles;
+    
+    // Events
+    event TreasuryEmission(uint256 amount, uint256 timestamp);
+    event TreasuryBurn(uint256 amount, uint256 timestamp);
+    event PriceDeviation(int256 deviation, uint256 timestamp);
+    event CircuitBreakerEngaged(uint256 timestamp);
+    event CircuitBreakerDisengaged(uint256 timestamp);
+    
+    constructor(uint256 initialSupply) ERC20("GLOVX Enhanced Stablecoin", "GLVX") {
+        _mint(msg.sender, initialSupply * 10 ** decimals());
+        treasuryBalance = (initialSupply * 10 ** decimals()) / 10; // 10% to treasury
+        lastOperationTime = block.timestamp;
+    }
+    
+    function performStabilityOperation() external {
+        require(!circuitBreakerActive, "Circuit breaker active");
+        require(block.timestamp >= lastOperationTime + operationInterval, "Operation too soon");
+        
+        uint256 currentPrice = getConservativeMarketPrice();
+        int256 priceDeviation = calculatePriceDeviation(currentPrice);
+        
+        // Circuit breaker check
+        if (abs(priceDeviation) > CIRCUIT_BREAKER_THRESHOLD) {
+            engageCircuitBreaker();
+            return;
+        }
+        
+        if (priceDeviation > 0) {
+            // Price above peg - emit tokens (capped at 5%)
+            uint256 emissionAmount = min(
+                calculateEmissionAmount(priceDeviation),
+                (totalSupply() * MAX_SUPPLY_CHANGE) / 10000
+            );
+            performEmission(emissionAmount);
+        } else if (priceDeviation < 0) {
+            // Price below peg - burn tokens (capped at 5%)
+            uint256 burnAmount = min(
+                calculateBurnAmount(priceDeviation),
+                (totalSupply() * MAX_SUPPLY_CHANGE) / 10000
+            );
+            performBurn(burnAmount);
+        }
+        
+        lastOperationTime = block.timestamp;
+        emit PriceDeviation(priceDeviation, block.timestamp);
+    }
+    
+    function getConservativeMarketPrice() internal view returns (uint256) {
+        // Implementation would use multiple oracles with TWAP
+        // This is a simplified version
+        return TARGET_PRICE;
+    }
+    
+    function engageCircuitBreaker() internal {
+        circuitBreakerActive = true;
+        circuitBreakerTime = block.timestamp;
+        emit CircuitBreakerEngaged(block.timestamp);
+    }
+    
+    function disengageCircuitBreaker() external onlyOwner {
+        require(circuitBreakerActive, "Circuit breaker not active");
+        require(block.timestamp >= circuitBreakerTime + 24 hours, "24h cooldown not passed");
+        circuitBreakerActive = false;
+        emit CircuitBreakerDisengaged(block.timestamp);
+    }
+    
+    // Additional helper functions
+    function calculatePriceDeviation(uint256 currentPrice) internal pure returns (int256) {
+        return (int256(currentPrice) - int256(TARGET_PRICE)) * 1e18 / int256(TARGET_PRICE);
+    }
+    
+    function abs(int256 x) internal pure returns (uint256) {
+        return uint256(x >= 0 ? x : -x);
+    }
+    
+    function min(uint256 a, uint256 b) internal pure returns (uint256) {
+        return a < b ? a : b;
+    }
+    
+    // Rest of implementation...
+}</code></pre>
+
+            <h2>Enhanced Operation Examples</h2>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Scenario</th>
+                            <th>Market Price</th>
+                            <th>Price Deviation</th>
+                            <th>Treasury Action</th>
+                            <th>Supply Change</th>
+                            <th>Safeguards Activated</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Normal High Demand</strong></td>
+                            <td>1.05 GCBI</td>
+                            <td>+5%</td>
+                            <td>Emit 2.5% of supply</td>
+                            <td>+2.5%</td>
+                            <td>Conservative parameters (5% cap)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Extreme High Demand</strong></td>
+                            <td>1.20 GCBI</td>
+                            <td>+20%</td>
+                            <td>Circuit breaker activated</td>
+                            <td>0%</td>
+                            <td>Circuit breaker (>15% deviation)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Normal Low Demand</strong></td>
+                            <td>0.96 GCBI</td>
+                            <td>-4%</td>
+                            <td>Burn 2% of supply</td>
+                            <td>-2%</td>
+                            <td>Conservative parameters (5% cap)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Extreme Low Demand</strong></td>
+                            <td>0.80 GCBI</td>
+                            <td>-20%</td>
+                            <td>Circuit breaker activated</td>
+                            <td>0%</td>
+                            <td>Circuit breaker (>15% deviation)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="box success">
+                <h4><i class="fas fa-shield-alt"></i> Key Improvement: Multiple Safeguards</h4>
+                <p>The enhanced algorithmic mechanism incorporates multiple safeguards missing in previous designs:</p>
+                <ul>
+                    <li><strong>Conservative Parameters:</strong> Maximum 5% supply change prevents overshooting</li>
+                    <li><strong>Multiple Oracles:</strong> Redundant price feeds prevent manipulation</li>
+                    <li><strong>Circuit Breakers:</strong> Automatic pause during extreme conditions</li>
+                    <li><strong>Progressive Collateralization:</strong> Gradual transition to hybrid model</li>
+                    <li><strong>Transparent Operations:</strong> All actions visible and verifiable</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- INVESTMENT THESIS -->
+        <section id="investment" class="section-hidden">
+            <h1>Investment Thesis</h1>
+
+            <div class="investor-highlight">
+                <h4>🎯 Why Invest in Enhanced GLOVEX?</h4>
+                <p>The enhanced algorithmic stablecoin mechanism combines the benefits of algorithmic efficiency with the security of collateralization. GLOVEX offers a risk-mitigated approach to decentralized stable value, learning from previous failures while maintaining innovative features.</p>
+            </div>
+
+            <h2>Investment Advantages</h2>
+            <ul>
+                <li><strong>Risk-Mitigated Design:</strong> Learning from previous algorithmic failures</li>
+                <li><strong>Progressive Approach:</strong> Three-phase evolution with clear milestones</li>
+                <li><strong>Multi-Currency Diversification:</strong> Exposure to 6 major global currencies</li>
+                <li><strong>Proven Stability:</strong> 20-year historical data shows 1.52% volatility</li>
+                <li><strong>Transparent Mechanism:</strong> Enhanced safeguards and conservative parameters</li>
+                <li><strong>DeFi Native:</strong> Perfect for decentralized finance applications</li>
+            </ul>
+
+            <h2>Enhanced Value Proposition</h2>
+
+            <div class="investment-cards">
+                <div class="investment-card">
+                    <h4><i class="fas fa-university"></i> Centralized Stablecoins</h4>
+                    <p><strong>Examples:</strong> USDT, USDC</p>
+                    <div class="roi">Centralized Risk</div>
+                    <div class="scenario">✅ Price stability</div>
+                    <div class="scenario">❌ Centralized control</div>
+                    <div class="scenario">❌ Regulatory risk</div>
+                    <div class="scenario">❌ Counterparty risk</div>
+                </div>
+                <div class="investment-card">
+                    <h4><i class="fas fa-bitcoin"></i> Crypto-Backed Stablecoins</h4>
+                    <p><strong>Examples:</strong> DAI, LUSD</p>
+                    <div class="roi">Overcollateralized</div>
+                    <div class="scenario">✅ Decentralized</div>
+                    <div class="scenario">❌ Capital inefficient</div>
+                    <div class="scenario">❌ Volatility risk</div>
+                    <div class="scenario">⚠️ Complex mechanisms</div>
+                </div>
+                <div class="investment-card">
+                    <h4><i class="fas fa-robot"></i> Enhanced GLOVEX</h4>
+                    <p><strong>Innovation:</strong> Hybrid multi-currency</p>
+                    <div class="roi">Optimal Balance</div>
+                    <div class="scenario">✅ Risk-mitigated design</div>
+                    <div class="scenario">✅ Progressive collateralization</div>
+                    <div class="scenario">✅ Capital efficient</div>
+                    <div class="scenario">✅ Multi-currency diversification</div>
+                </div>
+            </div>
+
+            <h2>Market Opportunity Analysis</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Stablecoin Category</th>
+                            <th>Market Share</th>
+                            <th>Key Limitations</th>
+                            <th>GLOVEX Advantage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Centralized (USDT/USDC)</strong></td>
+                            <td>85%</td>
+                            <td>Centralization, regulatory risk</td>
+                            <td>Fully decentralized with safeguards</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Crypto-Backed (DAI)</strong></td>
+                            <td>10%</td>
+                            <td>Capital inefficiency, complexity</td>
+                            <td>Capital efficient, simplified mechanism</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Algorithmic (UST* failed)</strong></td>
+                            <td>0% (post-collapse)</td>
+                            <td>Design flaws, death spiral risk</td>
+                            <td>Enhanced safeguards, multi-currency backing</td>
+                        </tr>
+                        <tr class="highlight-row">
+                            <td><strong>GLOVEX Enhanced Hybrid</strong></td>
+                            <td>New Category</td>
+                            <td>First enhanced algorithmic with collateralization path</td>
+                            <td>Risk-mitigated design + multi-currency stability</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="box success">
+                <h4><i class="fas fa-chart-line"></i> Sustainable Stability Design</h4>
+                <p>GLOVEX learns from previous algorithmic stablecoin failures by implementing enhanced design principles:</p>
+                <ul>
+                    <li><strong>Conservative Parameters:</strong> Maximum 5% supply change per operation</li>
+                    <li><strong>Multiple Safeguards:</strong> Circuit breakers, multi-oracle system</li>
+                    <li><strong>Progressive Collateralization:</strong> Path from algorithmic to collateralized</li>
+                    <li><strong>Transparent Treasury:</strong> All operations visible on-chain</li>
+                    <li><strong>Emergency Mechanisms:</strong> Circuit breakers for extreme conditions</li>
+                    <li><strong>Community Governance:</strong> Progressive decentralization</li>
+                </ul>
+            </div>
+
+            <h2>Investment Scenarios (Realistic)</h2>
+            
+            <div class="box investment">
+                <h4><i class="fas fa-chart-bar"></i> Scenario A: Airdrop Participant (Free Entry)</h4>
+                <ul>
+                    <li><strong>Investment:</strong> $0 (free airdrop)</li>
+                    <li><strong>Receive:</strong> 400 GLVX</li>
+                    <li><strong>Conservative:</strong> Stage 2 reached ($1M mcap) → GLVX price = $0.10 → Your 400 GLVX = $40 → ROI: Infinite (free → $40)</li>
+                    <li><strong>Base Case:</strong> Phase 2 launched ($10M mcap) → GLVX price = $1.00 → Your 400 GLVX = $400 → ROI: Infinite (free → $400)</li>
+                    <li><strong>Bull Case:</strong> Phase 3 success ($50M mcap) → GLVX price = $5.00 → Your 400 GLVX = $2,000 → ROI: Infinite (free → $2,000)</li>
+                </ul>
+            </div>
+
+            <div class="box warning">
+                <h4><i class="fas fa-exclamation-triangle"></i> Realistic Probability Assessment</h4>
+                <p><strong>Honest Risk/Reward Analysis:</strong></p>
+                <ul>
+                    <li><strong>Total Failure (→ $0):</strong> 60% - Most crypto projects fail</li>
+                    <li><strong>Reaches Stage 2 ($1M cap):</strong> 30% - Requires strong community execution</li>
+                    <li><strong>Reaches Phase 2 ($10M cap):</strong> 8% - Needs successful fundraise and development</li>
+                    <li><strong>Reaches Phase 3 ($50M+ cap):</strong> 2% - Exceptional case requiring perfect execution</li>
+                </ul>
+                <p>Despite 60% failure rate, the asymmetric upside (free airdrop with 1000x potential) makes this mathematically attractive for risk-tolerant investors.</p>
+            </div>
+        </section>
+
+        <!-- GCBI SECTION - IMPROVED -->
+        <section id="gcbi" class="section-hidden">
+            <h1>Global Currency Basket Index (GCBI)</h1>
+
+            <div class="box info">
+                <h4><i class="fas fa-calculator"></i> Scientific Selection Methodology</h4>
+                <p><strong>The GCBI combination is not arbitrary:</strong> It is based on rigorous quantitative analysis that optimizes multiple variables to maximize stability and minimize risk.</p>
+            </div>
+
+            <h2>Currency Composition & Rationale</h2>
+            
+            <div class="chart-container">
+                <div class="chart-title">GCBI Currency Weights - Optimized for Minimum Volatility</div>
+                <div class="chart-loading">Loading chart...</div>
+                <canvas id="gcbiChart"></canvas>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Currency</th>
+                            <th>Code</th>
+                            <th>Weight</th>
+                            <th>Rationale & Selection Criteria</th>
+                            <th>Correlation Benefit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>US Dollar</strong></td>
+                            <td>USD</td>
+                            <td><strong>30%</strong></td>
+                            <td>Dominant global reserve (59% of world reserves), maximum liquidity, countercyclical in crises</td>
+                            <td>Low correlation with EUR (-0.32), JPY (-0.41)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Euro</strong></td>
+                            <td>EUR</td>
+                            <td><strong>25%</strong></td>
+                            <td>Second largest economy, geopolitical diversification, low correlation with USD</td>
+                            <td>Negative correlation with CHF during stress</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Chinese Yuan</strong></td>
+                            <td>CNY</td>
+                            <td><strong>15%</strong></td>
+                            <td>Decoupled economic cycle, stable growth, exposure to emerging economies</td>
+                            <td>Low historical correlation with GBP (0.18)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Japanese Yen</strong></td>
+                            <td>JPY</td>
+                            <td><strong>10%</strong></td>
+                            <td>Traditional safe haven, divergent monetary policy, global risk hedge</td>
+                            <td>Strong negative correlation with USD in risk-off (-0.67)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>British Pound</strong></td>
+                            <td>GBP</td>
+                            <td><strong>10%</strong></td>
+                            <td>Global financial center, institutional diversification, deep liquidity</td>
+                            <td>Low correlation with JPY (0.22)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Swiss Franc</strong></td>
+                            <td>CHF</td>
+                            <td><strong>10%</strong></td>
+                            <td>Maximum historical stability, proven safe haven, AAA credit quality</td>
+                            <td>Negative correlation with EUR in volatility (-0.45)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>Scientific Optimization: Why This Combination Is Optimal</h2>
+
+            <div class="phase-container">
+                <div class="phase-card">
+                    <div class="phase-title">Efficient Frontier Analysis</div>
+                    <p><strong>Markowitz method applied to currencies:</strong></p>
+                    <ul class="phase-features">
+                        <li><i class="fas fa-chart-line"></i> Backtesting of 47 possible combinations</li>
+                        <li><i class="fas fa-balance-scale"></i> Optimization for minimum risk (volatility)</li>
+                        <li><i class="fas fa-cogs"></i> Minimum liquidity constraints ($10B daily)</li>
+                        <li><i class="fas fa-shield-alt"></i> Maximum country exposure limits (35%)</li>
+                    </ul>
+                </div>
+
+                <div class="phase-card">
+                    <div class="phase-title">Correlation Matrix</div>
+                    <p><strong>Mathematically optimized diversification:</strong></p>
+                    <ul class="phase-features">
+                        <li><i class="fas fa-project-diagram"></i> Average correlations: 0.28 (low)</li>
+                        <li><i class="fas fa-sync-alt"></i> Strategic negative correlations</li>
+                        <li><i class="fas fa-arrows-alt-h"></i> Balanced regional exposures</li>
+                        <li><i class="fas fa-random"></i> Out-of-phase economic cycles</li>
+                    </ul>
+                </div>
+
+                <div class="phase-card">
+                    <div class="phase-title">Alternatives Evaluated</div>
+                    <p><strong>Other combinations analyzed:</strong></p>
+                    <ul class="phase-features">
+                        <li><i class="fas fa-times"></i> Include CAD: +0.4% volatility</li>
+                        <li><i class="fas fa-times"></i> Exclude CHF: +1.2% volatility</li>
+                        <li><i class="fas fa-times"></i> Equal weight 16.7% each: +0.8% volatility</li>
+                        <li><i class="fas fa-check"></i> Current combination: minimum volatility</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>Are There Combinations with Lower Volatility?</h2>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Alternative Combination</th>
+                            <th>Resulting Volatility</th>
+                            <th>Advantages</th>
+                            <th>Critical Disadvantages</th>
+                            <th>Reason for Exclusion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>USD+EUR+CHF only</strong></td>
+                            <td>1.48%</td>
+                            <td>Slightly lower volatility</td>
+                            <td>Excessive concentration (85% developed economies)</td>
+                            <td>High exposure to Western systemic risk</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Include CAD/AUD</strong></td>
+                            <td>1.55-1.60%</td>
+                            <td>Greater geographic diversification</td>
+                            <td>High correlation with commodities (+0.7)</td>
+                            <td>Additional volatility from commodity cycles</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Exclude JPY</strong></td>
+                            <td>1.58%</td>
+                            <td>Simplified basket</td>
+                            <td>Loss of global risk hedge</td>
+                            <td>Higher drawdown in financial crises</td>
+                        </tr>
+                        <tr class="highlight-row">
+                            <td><strong>Current GCBI Combination</strong></td>
+                            <td><strong>1.52%</strong></td>
+                            <td>Optimal risk/return balance</td>
+                            <td>Moderate operational complexity</td>
+                            <td><strong>BEST GLOBAL COMPROMISE</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="box warning">
+                <h4><i class="fas fa-exclamation-triangle"></i> The Myth of "Zero Volatility"</h4>
+                <p><strong>No perfect combination exists:</strong> Any attempt to reduce volatility below 1.5% implies:</p>
+                <ul>
+                    <li><strong>Dangerous concentration</strong> in few currencies</li>
+                    <li><strong>Exposure to extreme correlations</strong> in abnormal market conditions</li>
+                    <li><strong>Loss of geopolitical and economic diversification</strong></li>
+                    <li><strong>Operational difficulties</strong> in rebalancing and execution</li>
+                </ul>
+                <p>The GCBI's 1.52% represents the <strong>Pareto optimum</strong> in the trade-off between stability and diversification.</p>
+            </div>
+
+            <h2>Dynamic Correction and Rebalancing Mechanism</h2>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">Quarterly Rebalancing</div>
+                    <div class="timeline-content">
+                        <h4>Automatic Weight Adjustment</h4>
+                        <ul>
+                            <li><strong>Review every 3 months</strong> of correlations and volatilities</li>
+                            <li><strong>Maximum adjustments of 2%</strong> per currency per quarter</li>
+                            <li><strong>Optimization algorithm</strong> with updated data</li>
+                            <li><strong>Complete transparency</strong> in changes made</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Annual Structural Review</div>
+                    <div class="timeline-content">
+                        <h4>Evaluation of Included Currencies</h4>
+                        <ul>
+                            <li><strong>Liquidity analysis</strong> (daily trading volume > $10B)</li>
+                            <li><strong>Political and economic stability</strong> of issuing country</li>
+                            <li><strong>Structural changes</strong> in correlations</li>
+                            <li><strong>Inclusion/exclusion proposals</strong> based on data</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Governance Mechanism (Phase 3)</div>
+                    <div class="timeline-content">
+                        <h4>Community Decision</h4>
+                        <ul>
+                            <li><strong>GLVX holder voting</strong> for major changes</li>
+                            <li><strong>60% threshold</strong> for structural modifications</li>
+                            <li><strong>Technical advisory committee</strong> with independent experts</li>
+                            <li><strong>Gradual transition</strong> of 6 months for changes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h2>Criteria for Future Modifications</h2>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Scenario</th>
+                            <th>Activation Threshold</th>
+                            <th>Decision Process</th>
+                            <th>Practical Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>New Currency Inclusion</strong></td>
+                            <td>Volume > $20B/day for 6 months<br>Volatility < 3% annual</td>
+                            <td>Technical analysis + community voting</td>
+                            <td>CAD if it meets stability criteria</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Existing Currency Exclusion</strong></td>
+                            <td>Volatility > 8% for 4 quarters<br>Liquidity < $5B/day</td>
+                            <td>Risk evaluation + gradual transition</td>
+                            <td>GBP if Brexit causes persistent volatility</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Weight Adjustment</strong></td>
+                            <td>Correlation change > 0.3<br>Structural economic imbalance</td>
+                            <td>Automatic algorithm + notification</td>
+                            <td>Reduce USD if it loses dominant reserve status</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="box success">
+                <h4><i class="fas fa-robot"></i> Adaptive Machine Learning System</h4>
+                <p>In advanced phases, GLOVEX will implement ML algorithms for dynamic optimization:</p>
+                <ul>
+                    <li><strong>Correlation prediction</strong> based on macro indicators</li>
+                    <li><strong>Early detection</strong> of structural market changes</li>
+                    <li><strong>Real-time optimization</strong> of weights according to conditions</li>
+                    <li><strong>Continuous backtesting</strong> of alternative strategies</li>
+                </ul>
+                <p><strong>The GCBI evolves with global markets, always maintaining the objective of minimum volatility with maximum diversification.</strong></p>
+            </div>
+
+            <h2>Historical Performance Validation (2004-2024)</h2>
+            
+            <div class="chart-container">
+                <div class="chart-title">Historical Value Evolution vs. Single Currencies (2004-2024)</div>
+                <div class="chart-loading">Loading chart...</div>
+                <canvas id="valueChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Rolling Volatility Comparison - GCBI vs Alternatives (3-Year Window)</div>
+                <div class="chart-loading">Loading chart...</div>
+                <canvas id="volatilityChart"></canvas>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Currency/Index</th>
+                            <th>20-Year Return</th>
+                            <th>Avg. Volatility</th>
+                            <th>Max Drawdown</th>
+                            <th>Sharpe Ratio</th>
+                            <th>Stability Rank</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="highlight-row">
+                            <td><strong>GLOVEX GCBI (Optimized)</strong></td>
+                            <td>+9%</td>
+                            <td><strong>1.52%</strong> 🏆</td>
+                            <td>-2.1%</td>
+                            <td>0.68</td>
+                            <td><strong>#1</strong></td>
+                        </tr>
+                        <tr>
+                            <td>USD+EUR+CHF Only</td>
+                            <td>+7%</td>
+                            <td>1.48%</td>
+                            <td>-3.8%</td>
+                            <td>0.52</td>
+                            <td>#2</td>
+                        </tr>
+                        <tr>
+                            <td>CHF (Swiss Franc)</td>
+                            <td>+29%</td>
+                            <td>2.67%</td>
+                            <td>-4.0%</td>
+                            <td>0.48</td>
+                            <td>#3</td>
+                        </tr>
+                        <tr>
+                            <td>Equal Weight (6 currencies)</td>
+                            <td>+5%</td>
+                            <td>1.80%</td>
+                            <td>-2.8%</td>
+                            <td>0.45</td>
+                            <td>#4</td>
+                        </tr>
+                        <tr>
+                            <td>USD (US Dollar)</td>
+                            <td>+3%</td>
+                            <td>2.81%</td>
+                            <td>-8.3%</td>
+                            <td>0.18</td>
+                            <td>#5</td>
+                        </tr>
+                        <tr>
+                            <td>CNY (Chinese Yuan)</td>
+                            <td>+21%</td>
+                            <td>3.18%</td>
+                            <td>-9.0%</td>
+                            <td>0.22</td>
+                            <td>#6</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="box algorithmic">
+                <h4><i class="fas fa-trophy"></i> Conclusion: Proven Scientific Optimization</h4>
+                <p><strong>The GCBI combination represents the state of the art in currency diversification:</strong></p>
+                <ul>
+                    <li><strong>Rigorous methodology:</strong> Based on quantitative analysis, not assumptions</li>
+                    <li><strong>Optimal balance:</strong> Minimizes volatility without sacrificing diversification</li>
+                    <li><strong>Adaptive mechanism:</strong> Continuously corrects and improves with current data</li>
+                    <li><strong>Total transparency:</strong> Explicit criteria for future modifications</li>
+                    <li><strong>Empirical validation:</strong> 20 years of backtesting validates the approach</li>
+                </ul>
+                <p><strong>We don't seek zero volatility (impossible), but the achievable optimum with maximum robustness.</strong></p>
+            </div>
+        </section>
+
+        <!-- TOKENOMICS -->
+        <section id="tokenomics" class="section-hidden">
+            <h1>Enhanced Tokenomics</h1>
+
+            <h2>Supply and Allocations</h2>
+            <p>Total supply: 10,000,000 GLVX.</p>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Allocation</th>
+                            <th>%</th>
+                            <th>Amount</th>
+                            <th>Vesting</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Public Airdrop</td>
+                            <td>40%</td>
+                            <td>4,000,000</td>
+                            <td>Immediate</td>
+                            <td>Build community, wide distribution</td>
+                        </tr>
+                        <tr>
+                            <td>Liquidity Incentives</td>
+                            <td>20%</td>
+                            <td>2,000,000</td>
+                            <td>12 months</td>
+                            <td>Reward early LPs</td>
+                        </tr>
+                        <tr>
+                            <td>Treasury/Development</td>
+                            <td>20%</td>
+                            <td>2,000,000</td>
+                            <td>24 months</td>
+                            <td>Fund Phase 2 development</td>
+                        </tr>
+                        <tr>
+                            <td>Team</td>
+                            <td>10%</td>
+                            <td>1,000,000</td>
+                            <td>36 months</td>
+                            <td>Team incentive alignment</td>
+                        </tr>
+                        <tr>
+                            <td>Partnerships</td>
+                            <td>5%</td>
+                            <td>500,000</td>
+                            <td>18 months</td>
+                            <td>Strategic collaborations</td>
+                        </tr>
+                        <tr>
+                            <td>Reserve</td>
+                            <td>5%</td>
+                            <td>500,000</td>
+                            <td>Locked</td>
+                            <td>Emergency fund</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Tokenomics Distribution</div>
+                <div class="chart-loading">Loading chart...</div>
+                <canvas id="tokenomicsChart"></canvas>
+            </div>
+
+            <h2>Enhanced Utility</h2>
+            <ul>
+                <li><strong>Phase 1:</strong> Reference token for diversified currency basket exposure; DEX trading; community incentives</li>
+                <li><strong>Phase 2:</strong> Fee discounts on redemptions; staking for governance; LP rewards; limited redemption rights</li>
+                <li><strong>Phase 3:</strong> Full governance rights; staking for parameter votes; revenue sharing; enterprise API access</li>
+            </ul>
+
+            <div class="box info">
+                <h4><i class="fas fa-users"></i> Community-First Distribution</h4>
+                <p><strong>Why 40% Airdrop?</strong> Since Phase 1 has no guarantees, the best way to bootstrap is through wide distribution:</p>
+                <ul>
+                    <li>Creates instant community of holders</li>
+                    <li>Generates organic social media buzz</li>
+                    <li>Provides initial liquidity without capital</li>
+                    <li>Demonstrates commitment to decentralization</li>
+                    <li><strong>Target:</strong> 10,000+ wallet addresses × 400 GLVX each</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- PROTOCOL DESIGN -->
+        <section id="protocol" class="section-hidden">
+            <h1>Protocol Design</h1>
+
+            <div class="mechanism">
+                <h4><i class="fas fa-cubes"></i> Comprehensive Protocol Architecture</h4>
+                <p>The GLOVEX protocol is designed as a modular system with multiple interconnected components that work together to maintain stability while ensuring security, transparency, and scalability.</p>
+            </div>
+
+            <h2>Core Protocol Components</h2>
+
+            <div class="phase-container">
+                <div class="phase-card">
+                    <div class="phase-title">Algorithmic Engine</div>
+                    <ul class="phase-features">
+                        <li><i class="fas fa-cog"></i> Real-time price monitoring</li>
+                        <li><i class="fas fa-calculator"></i> Supply adjustment calculations</li>
+                        <li><i class="fas fa-shield-alt"></i> Conservative parameter enforcement</li>
+                        <li><i class="fas fa-bolt"></i> Emergency circuit breakers</li>
+                    </ul>
+                </div>
+
+                <div class="phase-card">
+                    <div class="phase-title">Treasury Management</div>
+                    <ul class="phase-features">
+                        <li><i class="fas fa-vault"></i> Multi-signature treasury wallets</li>
+                        <li><i class="fas fa-chart-line"></i> Reserve asset management</li>
+                        <li><i class="fas fa-sync"></i> Automated rebalancing</li>
+                        <li><i class="fas fa-eye"></i> Transparent reporting</li>
+                    </ul>
+                </div>
+
+                <div class="phase-card">
+                    <div class="phase-title">Oracle System</div>
+                    <ul class="phase-features">
+                        <li><i class="fas fa-satellite-dish"></i> Multiple price feed sources</li>
+                        <li><i class="fas fa-clock"></i> Time-weighted averages (TWAP)</li>
+                        <li><i class="fas fa-filter"></i> Manipulation detection</li>
+                        <li><i class="fas fa-redo"></i> Redundant fallbacks</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>Technical Architecture</h2>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Layer</th>
+                            <th>Component</th>
+                            <th>Technology</th>
+                            <th>Function</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Smart Contract</strong></td>
+                            <td>Core Algorithm</td>
+                            <td>Solidity, OpenZeppelin</td>
+                            <td>Stability mechanism execution</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Data</strong></td>
+                            <td>Oracle Network</td>
+                            <td>Chainlink, Custom APIs</td>
+                            <td>Price feed aggregation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Treasury</strong></td>
+                            <td>Reserve Management</td>
+                            <td>Multi-sig, DeFi Protocols</td>
+                            <td>Collateral backing & yield</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Governance</strong></td>
+                            <td>DAO Framework</td>
+                            <td>Snapshot, Aragon</td>
+                            <td>Community decision making</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Interface</strong></td>
+                            <td>User Dashboard</td>
+                            <td>React, Web3.js</td>
+                            <td>Protocol interaction & monitoring</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>Security Implementation</h2>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">Smart Contract Security</div>
+                    <div class="timeline-content">
+                        <h4>Multi-Layer Protection</h4>
+                        <ul>
+                            <li><strong>Audits:</strong> Multiple independent security audits</li>
+                            <li><strong>Bug Bounties:</strong> Ongoing vulnerability rewards program</li>
+                            <li><strong>Formal Verification:</strong> Mathematical proof of critical functions</li>
+                            <li><strong>Upgradeability:</strong> Controlled proxy pattern for emergency fixes</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Operational Security</div>
+                    <div class="timeline-content">
+                        <h4>Multi-Signature Controls</h4>
+                        <ul>
+                            <li><strong>Treasury Management:</strong> 5-of-7 multisig for all major operations</li>
+                            <li><strong>Parameter Changes:</strong> Time-locked governance proposals</li>
+                            <li><strong>Emergency Powers:</strong> Circuit breakers with community override</li>
+                            <li><strong>Key Management:</strong> Hardware wallet storage with geographic distribution</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Economic Security</div>
+                    <div class="timeline-content">
+                        <h4>Risk-Mitigated Design</h4>
+                        <ul>
+                            <li><strong>Conservative Parameters:</strong> Maximum 5% supply change per operation</li>
+                            <li><strong>Circuit Breakers:</strong> Automatic pause at 15% price deviation</li>
+                            <li><strong>Liquidity Requirements:</strong> Minimum DEX liquidity thresholds</li>
+                            <li><strong>Emergency Reserves:</strong> Dedicated fund for market operations</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h2>Integration Framework</h2>
+
+            <div class="box info">
+                <h4><i class="fas fa-plug"></i> DeFi & Ecosystem Integration</h4>
+                <p>The GLOVEX protocol is designed for seamless integration with the broader DeFi ecosystem:</p>
+                <ul>
+                    <li><strong>DEX Integration:</strong> Native support for PancakeSwap, Uniswap, and other major DEXs</li>
+                    <li><strong>Lending Protocols:</strong> Collateral eligibility on Aave, Compound, and similar platforms</li>
+                    <li><strong>Cross-Chain:</strong> Bridge compatibility for multi-chain deployment</li>
+                    <li><strong>API Access:</strong> Developer-friendly APIs for third-party integrations</li>
+                    <li><strong>Merchant Tools:</strong> Payment processing SDKs for e-commerce integration</li>
+                </ul>
+            </div>
+
+            <h2>Development Roadmap</h2>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Phase</th>
+                            <th>Protocol Features</th>
+                            <th>Technical Milestones</th>
+                            <th>Security Measures</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Phase 1</strong></td>
+                            <td>Basic algorithmic mechanism, GCBI reference</td>
+                            <td>BSC deployment, basic DEX listing</td>
+                            <td>Code audit, bug bounty program</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phase 2</strong></td>
+                            <td>Hybrid collateralization, limited redemption</td>
+                            <td>Multi-chain deployment, oracle integration</td>
+                            <td>Formal verification, insurance coverage</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phase 3</strong></td>
+                            <td>Full DAO governance, complete feature set</td>
+                            <td>Institutional APIs, enterprise tools</td>
+                            <td>Continuous monitoring, penetration testing</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="box success">
+                <h4><i class="fas fa-rocket"></i> Scalability & Future Development</h4>
+                <p>The protocol is designed with scalability in mind to accommodate future growth and feature additions:</p>
+                <ul>
+                    <li><strong>Modular Architecture:</strong> Independent components that can be upgraded separately</li>
+                    <li><strong>Cross-Chain Ready:</strong> Designed for deployment on multiple blockchain networks</li>
+                    <li><strong>API-First Approach:</strong> RESTful APIs for all major protocol functions</li>
+                    <li><strong>Governance Upgradeability:</strong> Community-controlled protocol evolution</li>
+                    <li><strong>Research & Development:</strong> Dedicated fund for continuous protocol improvement</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- FUTURE PROJECTS -->
+        <section id="future-projects" class="section-hidden">
+            <h1>Future Ecosystem Projects</h1>
+
+            <div class="box info">
+                <h4><i class="fas fa-rocket"></i> Expanding the Global Value Exchange Vision</h4>
+                <p>The GLOVEX protocol serves as the foundation for an expanding ecosystem of innovative financial products. Following the successful implementation of GLOVEX, we plan to launch additional tokens that address specific market needs while leveraging our proven technology and community.</p>
+            </div>
+
+            <h2>Upcoming Token Projects</h2>
+
+            <div class="project-cards">
+                <div class="project-card gold-project">
+                    <div class="project-logo">GOLDEX</div>
+                    <div class="project-tagline">Golden Value Exchange - Tokenized Gold & Silver</div>
+                    
+                    <h3>GLDX Token</h3>
+                    <p>A revolutionary stablecoin backed by physical gold and silver, providing the security of precious metals with the liquidity and accessibility of blockchain technology.</p>
+                    
+                    <ul class="project-features">
+                        <li><i class="fas fa-check"></i> <strong>Dual Collateral:</strong> Backed by both gold and silver reserves</li>
+                        <li><i class="fas fa-check"></i> <strong>Physical Audits:</strong> Regular third-party verification of reserves</li>
+                        <li><i class="fas fa-check"></i> <strong>Global Accessibility:</strong> Fractional ownership of precious metals</li>
+                        <li><i class="fas fa-check"></i> <strong>Enhanced Liquidity:</strong> 24/7 trading without storage concerns</li>
+                        <li><i class="fas fa-check"></i> <strong>Inflation Hedge:</strong> Protection against currency devaluation</li>
+                    </ul>
+                    
+                    <div class="project-advantages">
+                        <h4>Advantages Over Similar Projects</h4>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Feature</th>
+                                        <th>Tether Gold (XAUT)</th>
+                                        <th>Pax Gold (PAXG)</th>
+                                        <th>GOLDEX (GLDX)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Collateral Type</strong></td>
+                                        <td>Gold only</td>
+                                        <td>Gold only</td>
+                                        <td><strong>Gold + Silver</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Redemption</strong></td>
+                                        <td>Limited to large amounts</td>
+                                        <td>Limited to specific locations</td>
+                                        <td><strong>Flexible redemption options</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Transparency</strong></td>
+                                        <td>Monthly attestations</td>
+                                        <td>Monthly attestations</td>
+                                        <td><strong>Real-time reserve tracking</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Yield Generation</strong></td>
+                                        <td>No</td>
+                                        <td>No</td>
+                                        <td><strong>Staking rewards available</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Cross-Chain</strong></td>
+                                        <td>Limited</td>
+                                        <td>Limited</td>
+                                        <td><strong>Multi-chain deployment</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="box gold">
+                        <h4><i class="fas fa-gem"></i> Innovation: Dual Precious Metal Backing</h4>
+                        <p>Unlike existing gold-backed tokens, GOLDEX combines both gold and silver reserves:</p>
+                        <ul>
+                            <li><strong>Gold (80%):</strong> Primary store of value with proven stability</li>
+                            <li><strong>Silver (20%):</strong> Industrial demand provides additional utility and growth potential</li>
+                            <li><strong>Dynamic Ratio:</strong> Adjustable allocation based on market conditions</li>
+                            <li><strong>Enhanced Diversification:</strong> Reduced correlation risk compared to single-metal tokens</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="project-card index-project">
+                    <div class="project-logo">GINDEX</div>
+                    <div class="project-tagline">Global Index Token - Diversified World Stock Markets</div>
+                    
+                    <h3>GNDX Token</h3>
+                    <p>A revolutionary token that provides exposure to a diversified basket of global stock market indices, allowing investors to gain worldwide equity market exposure through a single digital asset.</p>
+                    
+                    <ul class="project-features">
+                        <li><i class="fas fa-check"></i> <strong>Global Diversification:</strong> Exposure to 10+ major stock indices</li>
+                        <li><i class="fas fa-check"></i> <strong>Automated Rebalancing:</strong> Algorithmic optimization of weights</li>
+                        <li><i class="fas fa-check"></i> <strong>Low Correlation:</strong> Geographic and sector diversification</li>
+                        <li><i class="fas fa-check"></i> <strong>24/7 Trading:</strong> Continuous market access unlike traditional ETFs</li>
+                        <li><i class="fas fa-check"></i> <strong>Fractional Ownership:</strong> Accessible to all investors</li>
+                    </ul>
+                    
+                    <div class="project-advantages">
+                        <h4>Target Index Composition</h4>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Index</th>
+                                        <th>Region</th>
+                                        <th>Weight</th>
+                                        <th>Rationale</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>S&P 500</strong></td>
+                                        <td>United States</td>
+                                        <td>25%</td>
+                                        <td>World's largest economy, tech leadership</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Euro Stoxx 50</strong></td>
+                                        <td>European Union</td>
+                                        <td>20%</td>
+                                        <td>Diversified European blue chips</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Nikkei 225</strong></td>
+                                        <td>Japan</td>
+                                        <td>15%</td>
+                                        <td>Advanced manufacturing, innovation</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Shanghai Composite</strong></td>
+                                        <td>China</td>
+                                        <td>12%</td>
+                                        <td>Emerging market growth exposure</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>FTSE 100</strong></td>
+                                        <td>United Kingdom</td>
+                                        <td>8%</td>
+                                        <td>Global financial services, commodities</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>TSX Composite</strong></td>
+                                        <td>Canada</td>
+                                        <td>5%</td>
+                                        <td>Natural resources, energy exposure</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>ASX 200</strong></td>
+                                        <td>Australia</td>
+                                        <td>5%</td>
+                                        <td>Commodities, Asia-Pacific gateway</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Other Emerging</strong></td>
+                                        <td>Various</td>
+                                        <td>10%</td>
+                                        <td>High-growth potential markets</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="box index">
+                        <h4><i class="fas fa-chart-bar"></i> Innovation: Global Equity Access Simplified</h4>
+                        <p>GINDEX revolutionizes global equity investing:</p>
+                        <ul>
+                            <li><strong>Single Token Diversification:</strong> Access worldwide markets without multiple accounts</li>
+                            <li><strong>Lower Barriers:</strong> No minimum investment requirements</li>
+                            <li><strong>Enhanced Liquidity:</strong> 24/7 trading unlike traditional market hours</li>
+                            <li><strong>Tax Efficiency:</strong> Potential benefits in certain jurisdictions</li>
+                            <li><strong>DeFi Integration:</strong> Use as collateral in decentralized finance protocols</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h2>Ecosystem Synergy</h2>
+
+            <div class="box success">
+                <h4><i class="fas fa-sitemap"></i> Integrated Financial Ecosystem</h4>
+                <p>The GLOVEX ecosystem creates a comprehensive suite of digital assets:</p>
+                <ul>
+                    <li><strong>GLOVEX (GLVX):</strong> Multi-currency stability for daily transactions and savings</li>
+                    <li><strong>GOLDEX (GLDX):</strong> Precious metal exposure for wealth preservation</li>
+                    <li><strong>GINDEX (GNDX):</strong> Global equity diversification for growth investing</li>
+                </ul>
+                <p>Together, these tokens provide a complete digital asset portfolio covering currency stability, commodity protection, and equity growth - all accessible through blockchain technology with enhanced features compared to traditional alternatives.</p>
+            </div>
+
+            <h2>Development Timeline</h2>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2026 Q1-Q2</div>
+                    <div class="timeline-content">
+                        <h4>GLOVEX Phase 1 Launch</h4>
+                        <ul>
+                            <li>Algorithmic foundation implementation</li>
+                            <li>Initial community airdrop distribution</li>
+                            <li>Basic DEX listings and liquidity provision</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2026 Q3-Q4</div>
+                    <div class="timeline-content">
+                        <h4>GLOVEX Phase 2 Development</h4>
+                        <ul>
+                            <li>Hybrid collateralization implementation</li>
+                            <li>First major exchange listings</li>
+                            <li>Community governance testing</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2027 Q1-Q2</div>
+                    <div class="timeline-content">
+                        <h4>GOLDEX Development</h4>
+                        <ul>
+                            <li>Precious metal custody partnerships</li>
+                            <li>Smart contract development</li>
+                            <li>Regulatory compliance framework</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2027 Q3-Q4</div>
+                    <div class="timeline-content">
+                        <h4>GOLDEX Launch</h4>
+                        <ul>
+                            <li>GLDX token generation event</li>
+                            <li>Initial metal reserve establishment</li>
+                            <li>Exchange listings and liquidity provision</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2028 Q1-Q2</div>
+                    <div class="timeline-content">
+                        <h4>GINDEX Development</h4>
+                        <ul>
+                            <li>Index tracking mechanism design</li>
+                            <li>Derivatives and synthetic asset integration</li>
+                            <li>Cross-chain compatibility implementation</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2028 Q3-Q4</div>
+                    <div class="timeline-content">
+                        <h4>GINDEX Launch</h4>
+                        <ul>
+                            <li>GNDX token generation event</li>
+                            <li>Initial index portfolio establishment</li>
+                            <li>Full ecosystem integration</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box info">
+                <h4><i class="fas fa-handshake"></i> Community Benefits</h4>
+                <p>Early GLOVEX participants will receive special benefits in future ecosystem launches:</p>
+                <ul>
+                    <li><strong>Priority Access:</strong> Early participation in GOLDEX and GINDEX token sales</li>
+                    <li><strong>Loyalty Rewards:</strong> Bonus tokens for existing GLOVX holders</li>
+                    <li><strong>Governance Rights:</strong> Voting power in future project decisions</li>
+                    <li><strong>Fee Discounts:</strong> Reduced transaction fees across the ecosystem</li>
+                    <li><strong>Cross-Protocol Staking:</strong> Enhanced yield opportunities</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- UPDATED RISKS -->
+        <section id="risks" class="section-hidden">
+            <h1>Enhanced Risk Analysis & Mitigation</h1>
+
+            <div class="critical">
+                <h4><i class="fas fa-exclamation-triangle"></i> ENHANCED ALGORITHMIC STABLECOIN RISK WARNING</h4>
+                <p><strong>GLOVEX uses ENHANCED ALGORITHMIC TECHNOLOGY with multiple safeguards - but risks remain.</strong> Key risks:</p>
+                <ul>
+                    <li><strong>Death Spiral Risk:</strong> Algorithm fails to maintain peg during market stress</li>
+                    <li><strong>Oracle Risk:</strong> Incorrect price feeds trigger wrong operations</li>
+                    <li><strong>Liquidity Risk:</strong> Insufficient market depth for treasury operations</li>
+                    <li><strong>Adoption Risk:</strong> Low usage prevents effective stabilization</li>
+                    <li><strong>Regulatory Risk:</strong> Uncertain treatment of algorithmic stablecoins</li>
+                    <li><strong>Smart Contract Risk:</strong> Bugs in algorithmic logic</li>
+                </ul>
+                <p><strong>ALGORITHMIC STABLECOINS HAVE HISTORICALLY FAILED - EXTREME CAUTION REQUIRED</strong></p>
+            </div>
+
+            <h2>Enhanced Risk Mitigation</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Risk Category</th>
+                            <th>Impact</th>
+                            <th>Traditional Mitigation</th>
+                            <th>GLOVEX Enhanced Mitigation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Death Spiral</strong></td>
+                            <td>Critical</td>
+                            <td>None in failed projects</td>
+                            <td>Conservative parameters, circuit breakers, progressive collateralization</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Oracle Manipulation</strong></td>
+                            <td>Critical</td>
+                            <td>Single oracle</td>
+                            <td>Multiple price feeds, time-weighted averages, manipulation detection</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Liquidity Crisis</strong></td>
+                            <td>High</td>
+                            <td>None in failed projects</td>
+                            <td>Gradual operations, liquidity incentives, emergency reserves</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Adoption Failure</strong></td>
+                            <td>High</td>
+                            <td>Marketing focus</td>
+                            <td>Strong use cases, partnerships, community building, phased approach</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Regulatory Uncertainty</strong></td>
+                            <td>Medium</td>
+                            <td>Reactive approach</td>
+                            <td>Proactive compliance, transparent operations, legal counsel</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="box warning">
+                <h4><i class="fas fa-history"></i> Learning from History: Algorithmic Stablecoin Failures</h4>
+                <p>GLOVEX incorporates enhanced lessons from previous algorithmic stablecoin failures:</p>
+                <ul>
+                    <li><strong>UST/Terra:</strong> Excessive reliance on Ponzi-like anchor rates → GLOVEX has no yield promises</li>
+                    <li><strong>Basis Cash:</strong> Complex multi-token system → GLOVEX uses simple single-token model</li>
+                    <li><strong>Empty Set Dollar:</strong> Aggressive rebase mechanics → GLOVEX uses conservative treasury operations</li>
+                    <li><strong>Fei Protocol:</strong> Direct incentives causing volatility → GLOVEX uses gradual market operations</li>
+                    <li><strong>All failed projects:</strong> Lack of safeguards → GLOVEX implements multiple safety mechanisms</li>
+                </ul>
+                <p><strong>Key Innovation:</strong> Multi-currency foundation + progressive collateralization + enhanced safeguards.</p>
+            </div>
+
+            <h2>Enhanced Emergency Protocols</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">Emergency Level 1</div>
+                    <div class="timeline-content">
+                        <h4>Price Deviation 10-15%</h4>
+                        <ul>
+                            <li>Automatic reduction of operation size</li>
+                            <li>Increased operation frequency</li>
+                            <li>Enhanced monitoring and alerts</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Emergency Level 2</div>
+                    <div class="timeline-content">
+                        <h4>Price Deviation >15%</h4>
+                        <ul>
+                            <li>Circuit breaker activation</li>
+                            <li>24-hour operation pause</li>
+                            <li>Community notification and analysis</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Emergency Level 3</div>
+                    <div class="timeline-content">
+                        <h4>Sustained Deviation >20%</h4>
+                        <ul>
+                            <li>Extended circuit breaker (72 hours)</li>
+                            <li>Emergency governance vote</li>
+                            <li>Potential protocol parameter adjustments</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- UPDATED CONCLUSION -->
+        <section id="conclusion" class="section-hidden">
+            <h1>Investment Conclusion</h1>
+
+            <p>GLOVEX represents a <strong>next-generation hybrid algorithmic stablecoin</strong> that combines multi-currency diversification with enhanced safeguards and progressive collateralization. By learning from previous failures and implementing conservative design principles, GLOVEX aims to create a sustainable decentralized stable asset.</p>
+
+            <div class="box algorithmic">
+                <h4><i class="fas fa-chart-line"></i> Summary Investment Thesis</h4>
+                <ol>
+                    <li><strong>Enhanced Safety:</strong> Multiple safeguards and conservative parameters</li>
+                    <li><strong>Progressive Approach:</strong> Three-phase evolution with clear milestones</li>
+                    <li><strong>Multi-Currency Foundation:</strong> Built on proven GCBI stability</li>
+                    <li><strong>Risk-Mitigated Design:</strong> Learning from previous algorithmic failures</li>
+                    <li><strong>First-Mover Advantage:</strong> First enhanced algorithmic with collateralization path</li>
+                </ol>
+            </div>
+
+            <h2>Market Positioning & Growth Potential</h2>
+            
+            <div class="chart-container">
+                <div class="chart-title">Projected Market Share Evolution (2026-2031)</div>
+                <div class="chart-loading">Loading chart...</div>
+                <canvas id="marketChart"></canvas>
+            </div>
+
+            <div class="positioning-explanation">
+                <h4><i class="fas fa-bullseye"></i> Market Positioning Strategy</h4>
+                <p><strong>GLOVEX targets a unique position in the stablecoin market:</strong></p>
+                <ul>
+                    <li><strong>Short-term (2026-2027):</strong> Capture 1-2% of the algorithmic stablecoin niche as a proven, safer alternative</li>
+                    <li><strong>Medium-term (2028-2029):</strong> Expand to 3-5% market share by demonstrating superior stability and multi-currency advantages</li>
+                    <li><strong>Long-term (2030-2031):</strong> Achieve 5-10% market share by becoming the preferred multi-currency stable asset for international trade and DeFi</li>
+                </ul>
+                <p><strong>Note:</strong> While algorithmic stablecoins currently have 0% market share post-UST collapse, GLOVEX's hybrid approach aims to rebuild trust and capture the renewed demand for decentralized stable value.</p>
+            </div>
+
+            <div class="market-timeline">
+                <div>2026 Launch</div>
+                <div>2028 Phase 3</div>
+                <div>2031 Target</div>
+            </div>
+
+            <h3>Competitive Advantages in Market Positioning</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Competitor Category</th>
+                            <th>Current Limitations</th>
+                            <th>GLOVEX Advantage</th>
+                            <th>Target Market Segment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Centralized Stablecoins</strong><br>(USDT, USDC)</td>
+                            <td>Centralization risk, regulatory exposure, single-currency dependence</td>
+                            <td>Decentralized, multi-currency diversification, regulatory positioning</td>
+                            <td>DeFi users, international businesses, privacy-conscious users</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Crypto-Backed Stablecoins</strong><br>(DAI, LUSD)</td>
+                            <td>Capital inefficiency, volatility exposure, complexity</td>
+                            <td>Capital efficient, reduced volatility through diversification, simpler mechanism</td>
+                            <td>Capital-efficient DeFi, institutional users, yield farmers</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Failed Algorithmic</strong><br>(UST, etc.)</td>
+                            <td>Proven instability, lack of safeguards, unsustainable models</td>
+                            <td>Enhanced safeguards, progressive collateralization, conservative parameters</td>
+                            <td>Algorithmic believers seeking safer alternatives, early adopters</td>
+                        </tr>
+                        <tr class="highlight-row">
+                            <td><strong>GLOVEX Hybrid</strong></td>
+                            <td>New entrant, unproven at scale</td>
+                            <td>Unique multi-currency approach, phased risk mitigation, proven backtest performance</td>
+                            <td>Global businesses, cross-border payments, reserve asset diversification</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="disclaimer">
+                <h3><i class="fas fa-exclamation-triangle"></i> FINAL INVESTMENT WARNING</h3>
+                <p><strong>ALGORITHMIC STABLECOINS ARE EXPERIMENTAL AND HAVE HISTORICALLY FAILED.</strong></p>
+                <ul>
+                    <li>Previous algorithmic stablecoins lost 100% of value in collapses</li>
+                    <li>This technology is novel and largely unproven at scale</li>
+                    <li>GLOVEX could experience a death spiral and become worthless</li>
+                    <li>Only participate with money you can afford to lose completely</li>
+                </ul>
+                <p><strong>NOT FINANCIAL ADVICE. EXTREME RISK. DO YOUR OWN RESEARCH.</strong></p>
+            </div>
+
+            <h2>The Vision: Sustainable Decentralized Global Money</h2>
+            <p>Imagine a world where international commerce and personal savings can utilize a truly global, decentralized currency that maintains stable purchasing power through enhanced algorithmic mechanisms and progressive collateralization.</p>
+            
+            <div class="box success">
+                <h4><i class="fas fa-globe"></i> Future Ecosystem</h4>
+                <ul>
+                    <li><strong>Global Payments:</strong> Stable value for cross-border transactions</li>
+                    <li><strong>DeFi Foundation:</strong> Reliable stable asset for decentralized finance</li>
+                    <li><strong>Store of Value:</strong> Multi-currency diversification for savings</li>
+                    <li><strong>Financial Inclusion:</strong> Access to stable global currency for everyone</li>
+                    <li><strong>Monetary Innovation:</strong> New paradigm for sustainable currency design</li>
+                </ul>
+            </div>
+
+            <p>The question isn't whether algorithmic stablecoins can work. The question is: <strong>Can we learn from past failures to build a sustainable decentralized stable currency?</strong></p>
+            <p>GLOVEX represents our enhanced attempt to answer that question with a conservative, multi-currency, progressively collateralized approach.</p>
+        </section>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <div class="footer-brand">
+                <div class="logo">GLOVEX</div>
+                <div class="footer-subtitle">Global Value Exchange</div>
+                <p class="footer-tagline">Engineering the Future of Sustainable Decentralized Stable Value</p>
+            </div>
+            
+            <div class="footer-content">
+                <div class="footer-disclaimer">
+                    <p><strong>Disclaimer:</strong> This whitepaper is for informational purposes only and does not constitute financial, legal, or investment advice. GLOVEX tokens use enhanced experimental algorithmic stablecoin technology that carries extreme risk of total loss. Algorithmic stablecoins have historically failed. Always consult with qualified professionals before making any investment decisions.</p>
+                </div>
+                
+                <div class="footer-meta">
+                    <p>© 2025 GLOVEX Protocol. Open source documentation. Version 5.0 - Enhanced Algorithmic Stablecoin</p>
+                </div>
+            </div>
+        </div>
+
+    <!-- BACK TO TOP BUTTON -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        // Mobile Menu Functionality
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.classList.toggle('active');
+            
+            // Change icon
+            const icon = mobileMenuBtn.querySelector('i');
+            if (navLinks.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.classList.remove('active');
+                
+                const icon = mobileMenuBtn.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target) && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.classList.remove('active');
+                
+                const icon = mobileMenuBtn.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Chart Initialization Function
+        function initializeCharts() {
+            // Remove loading messages
+            document.querySelectorAll('.chart-loading').forEach(el => {
+                el.style.display = 'none';
+            });
+
+            // GCBI Composition Chart
+            const gcbiCtx = document.getElementById('gcbiChart').getContext('2d');
+            new Chart(gcbiCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['USD (30%)', 'EUR (25%)', 'CNY (15%)', 'JPY (10%)', 'GBP (10%)', 'CHF (10%)'],
+                    datasets: [{
+                        data: [30, 25, 15, 10, 10, 10],
+                        backgroundColor: [
+                            '#2563eb', '#059669', '#d97706', '#dc2626', '#7c3aed', '#0891b2'
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Mechanism Chart
+            const mechanismCtx = document.getElementById('mechanismChart').getContext('2d');
+            new Chart(mechanismCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Price Monitoring', 'Conservative Decision', 'Market Operations', 'Safeguards & Monitoring'],
+                    datasets: [{
+                        data: [25, 25, 25, 25],
+                        backgroundColor: [
+                            '#2563eb', '#059669', '#d97706', '#7c3aed'
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Market Chart - Projected Evolution
+            const marketCtx = document.getElementById('marketChart').getContext('2d');
+            new Chart(marketCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Centralized', 'Crypto-Backed', 'Algorithmic*', 'GLOVEX Target'],
+                    datasets: [
+                        {
+                            label: 'Current Market (2025)',
+                            data: [85, 10, 0, 0],
+                            backgroundColor: 'rgba(220, 38, 38, 0.7)',
+                            borderColor: '#dc2626',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Projected (2028)',
+                            data: [80, 12, 3, 5],
+                            backgroundColor: 'rgba(217, 119, 6, 0.7)',
+                            borderColor: '#d97706',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Target (2031)',
+                            data: [75, 13, 5, 7],
+                            backgroundColor: 'rgba(5, 150, 105, 0.7)',
+                            borderColor: '#059669',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Stablecoin Market Share Projection (%)'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.raw}%`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Market Share (%)'
+                            },
+                            max: 100
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Stablecoin Category'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Tokenomics Chart
+            const tokenomicsCtx = document.getElementById('tokenomicsChart').getContext('2d');
+            new Chart(tokenomicsCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Public Airdrop (40%)', 'Liquidity Incentives (20%)', 'Treasury/Development (20%)', 'Team (10%)', 'Partnerships (5%)', 'Reserve (5%)'],
+                    datasets: [{
+                        data: [40, 20, 20, 10, 5, 5],
+                        backgroundColor: [
+                            '#2563eb', '#059669', '#d97706', '#7c3aed', '#ec4899', '#6b7280'
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Historical Data (2004-2024)
+            const years = [2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024];
+
+            const valueData = {
+                GLVX: [1.00, 1.00, 1.02, 1.04, 1.06, 1.05, 1.06, 1.07, 1.08, 1.06, 1.07, 1.08, 1.08, 1.08, 1.08, 1.08, 1.09, 1.08, 1.09, 1.09, 1.09],
+                USD: [1.00, 0.98, 0.95, 1.02, 1.08, 1.03, 1.05, 1.10, 1.12, 1.06, 1.04, 1.08, 1.05, 1.03, 1.01, 0.98, 0.94, 0.97, 1.02, 1.05, 1.03],
+                EUR: [1.00, 1.02, 1.10, 1.14, 1.12, 1.03, 1.03, 1.06, 1.06, 0.98, 0.95, 0.95, 0.95, 0.95, 0.90, 0.86, 0.88, 0.87, 0.90, 0.90, 0.91],
+                CNY: [1.00, 1.02, 1.05, 1.10, 1.21, 1.18, 1.24, 1.32, 1.37, 1.23, 1.23, 1.30, 1.25, 1.22, 1.17, 1.13, 1.10, 1.15, 1.19, 1.21, 1.21],
+                JPY: [1.00, 0.98, 0.95, 0.90, 0.85, 0.91, 0.89, 0.96, 0.99, 0.96, 0.89, 0.88, 0.90, 0.89, 0.90, 0.85, 0.77, 0.76, 0.78, 0.79, 0.97],
+                GBP: [1.00, 1.02, 1.08, 1.07, 1.06, 0.98, 0.99, 1.00, 0.99, 0.90, 0.86, 0.84, 0.80, 0.76, 0.73, 0.69, 0.71, 0.71, 0.69, 0.73, 0.70],
+                CHF: [1.00, 1.03, 1.08, 1.18, 1.28, 1.24, 1.28, 1.36, 1.42, 1.29, 1.24, 1.35, 1.33, 1.30, 1.25, 1.23, 1.20, 1.22, 1.28, 1.30, 1.29]
+            };
+
+            const volatilityData = {
+                GLVX: [0, 0, 0.82, 1.63, 1.70, 1.41, 1.22, 1.15, 1.08, 0.82, 0.96, 0.94, 0.82, 0.82, 0.82, 0.82, 0.47, 0.47, 0.47, 0.47, 0.52],
+                USD: [0, 0, 2.50, 3.61, 4.27, 2.72, 2.36, 2.65, 3.56, 2.65, 1.63, 2.16, 1.91, 1.63, 1.41, 2.65, 3.56, 2.94, 3.30, 2.45, 2.81],
+                EUR: [0, 0, 4.08, 4.32, 3.74, 4.32, 3.56, 4.08, 5.35, 5.89, 3.30, 4.08, 4.50, 5.35, 3.74, 2.94, 1.41, 1.26, 2.16, 2.16, 3.45],
+                CNY: [0, 0, 1.50, 2.50, 4.50, 4.00, 3.74, 4.91, 6.24, 5.89, 3.74, 4.50, 3.91, 3.30, 2.94, 2.16, 2.16, 2.87, 2.45, 2.18, 3.18],
+                JPY: [0, 0, 1.50, 2.50, 3.54, 2.87, 2.16, 3.56, 5.35, 5.00, 3.74, 3.30, 3.30, 4.50, 4.50, 2.94, 4.97, 5.35, 4.26, 4.62, 4.23],
+                GBP: [0, 0, 3.09, 3.30, 2.16, 4.50, 4.72, 4.08, 5.35, 6.24, 5.00, 4.50, 4.32, 3.30, 2.65, 2.94, 1.63, 1.63, 1.63, 2.16, 5.12],
+                CHF: [0, 0, 2.50, 4.08, 5.00, 3.74, 3.09, 4.50, 6.24, 5.89, 3.30, 5.35, 4.72, 3.30, 2.94, 1.41, 1.63, 2.16, 3.09, 2.45, 2.67]
+            };
+
+            // Value Evolution Chart
+            const valueCtx = document.getElementById('valueChart').getContext('2d');
+            new Chart(valueCtx, {
+                type: 'line',
+                data: {
+                    labels: years,
+                    datasets: [
+                        {
+                            label: 'GLOVEX (Basket)',
+                            data: valueData.GLVX,
+                            borderColor: '#2563eb',
+                            backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                            borderWidth: 4,
+                            tension: 0.4,
+                            pointRadius: 0,
+                            fill: true
+                        },
+                        {
+                            label: 'USD',
+                            data: valueData.USD,
+                            borderColor: '#6b7280',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'EUR',
+                            data: valueData.EUR,
+                            borderColor: '#7c3aed',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'CNY',
+                            data: valueData.CNY,
+                            borderColor: '#d97706',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'JPY',
+                            data: valueData.JPY,
+                            borderColor: '#dc2626',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'GBP',
+                            data: valueData.GBP,
+                            borderColor: '#ec4899',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'CHF',
+                            data: valueData.CHF,
+                            borderColor: '#0891b2',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            pointRadius: 0
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Normalized Value (2004 = 1.00)'
+                            },
+                            min: 0.6,
+                            max: 1.5
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Year'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Volatility Chart
+            const volatilityCtx = document.getElementById('volatilityChart').getContext('2d');
+            new Chart(volatilityCtx, {
+                type: 'line',
+                data: {
+                    labels: years,
+                    datasets: [
+                        {
+                            label: 'GLOVEX (Basket)',
+                            data: volatilityData.GLVX,
+                            borderColor: '#2563eb',
+                            backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                            borderWidth: 4,
+                            tension: 0.4,
+                            pointRadius: 0,
+                            fill: true
+                        },
+                        {
+                            label: 'USD',
+                            data: volatilityData.USD,
+                            borderColor: '#6b7280',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'EUR',
+                            data: volatilityData.EUR,
+                            borderColor: '#7c3aed',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'CNY',
+                            data: volatilityData.CNY,
+                            borderColor: '#d97706',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'JPY',
+                            data: volatilityData.JPY,
+                            borderColor: '#dc2626',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'GBP',
+                            data: volatilityData.GBP,
+                            borderColor: '#ec4899',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'CHF',
+                            data: volatilityData.CHF,
+                            borderColor: '#0891b2',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            pointRadius: 0
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Volatility (%) - 3 Year Window'
+                            },
+                            min: 0,
+                            max: 7
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Year'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Progress Bar and Scroll Animations
+        const progressBar = document.getElementById('progressBar');
+        const backToTop = document.getElementById('backToTop');
+        const sections = document.querySelectorAll('section');
+        const navLogo = document.getElementById('navLogo');
+
+        // Update progress bar
+        function updateProgressBar() {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const progress = (scrollTop / documentHeight) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Show/hide back to top button
+        function toggleBackToTop() {
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        }
+
+        // Animate sections on scroll
+        function animateSections() {
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (sectionTop < windowHeight * 0.85) {
+                    section.classList.add('fade-in');
+                    section.classList.remove('section-hidden');
+                }
+            });
+        }
+
+        // Initialize animations on load
+        window.addEventListener('load', () => {
+            initializeCharts();
+            animateSections();
+            updateProgressBar();
+            toggleBackToTop();
+        });
+
+        // Event listeners
+        window.addEventListener('scroll', () => {
+            updateProgressBar();
+            toggleBackToTop();
+            animateSections();
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        navLogo.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    const offsetTop = targetElement.offsetTop - 80;
+                    
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Add fade-in animation to initial sections
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('executive').classList.remove('section-hidden');
+            document.getElementById('executive').classList.add('fade-in');
+        });
+    </script>
+</body>
+</html>
