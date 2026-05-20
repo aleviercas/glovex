@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GLOVEX: Enhanced Algorithmic Multi-Currency Stablecoin - Investment Whitepaper v5.0</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='6' fill='%23000000'/%3E%3Ctext x='32' y='46' font-family='Georgia%2C serif' font-size='30' font-weight='700' fill='white' text-anchor='middle' letter-spacing='4'%3EGX%3C/text%3E%3C/svg%3E">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -81,7 +82,7 @@
             width: 100%;
         }
 
-        .logo {
+        .logo { display:none; } .logo-hidden {
             font-size: clamp(48px, 10vw, 96px);
             font-weight: 900;
             letter-spacing: 0.15em;
@@ -267,7 +268,7 @@
                 padding-top: 100px;
             }
 
-            .logo {
+            .logo { display:none; } .logo-hidden {
                 margin-top: 20px;
             }
         }
@@ -1094,7 +1095,7 @@
                 display: none !important;
             }
             
-            .logo {
+            .logo { display:none; } .logo-hidden {
                 color: #000 !important;
                 margin: 1cm 0 0.5cm !important;
                 font-size: 72pt !important;
@@ -1493,7 +1494,7 @@
     <!-- NAVIGATION -->
     <div class="nav-container">
         <div class="nav-content">
-            <div class="nav-logo" id="navLogo">GLVX</div>
+            <div class="nav-logo" id="navLogo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 28" width="64" height="28" role="img" aria-label="GLOVEX"><title>GX</title><text x="2" y="24" font-family="Georgia, serif" font-size="26" font-weight="700" fill="currentColor" letter-spacing="6">GX</text></svg></div>
             <button class="mobile-menu-btn" id="mobileMenuBtn">
                 <i class="fas fa-bars"></i>
             </button>
@@ -1519,7 +1520,11 @@
     <!-- COVER -->
     <div class="cover">
         <div class="cover-content">
-            <div class="logo">GLOVEX</div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 110" style="width:clamp(280px,55vw,560px);height:auto;display:block;margin:40px auto 20px;" role="img" aria-label="GLOVEX">
+                <title>GLOVEX</title>
+                <text x="280" y="88" font-family="Georgia, 'Times New Roman', serif" font-size="88" font-weight="700" fill="#000000" text-anchor="middle" letter-spacing="14">GLOVEX</text>
+            </svg>
+
             <h2>Global Value Exchange</h2>
             <p class="cover-description">
                 <strong>The World's First Hybrid Algorithmic Multi-Currency Stablecoin</strong><br>
@@ -3254,7 +3259,11 @@ contract GLOVXEnhancedStablecoin is ERC20, Ownable {
         <!-- FOOTER -->
         <div class="footer">
             <div class="footer-brand">
-                <div class="logo">GLOVEX</div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 110" style="width:clamp(280px,55vw,560px);height:auto;display:block;margin:40px auto 20px;" role="img" aria-label="GLOVEX">
+                <title>GLOVEX</title>
+                <text x="280" y="88" font-family="Georgia, 'Times New Roman', serif" font-size="88" font-weight="700" fill="#000000" text-anchor="middle" letter-spacing="14">GLOVEX</text>
+            </svg>
+
                 <div class="footer-subtitle">Global Value Exchange</div>
                 <p class="footer-tagline">Engineering the Future of Sustainable Decentralized Stable Value</p>
             </div>
