@@ -1,260 +1,184 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GLOVEX — Informe de Auditoría Independiente del Whitepaper</title>
+<title>GLOVEX — Global Value Exchange | Whitepaper v6.0</title>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
   :root{
-    --paper:#EEECE4;
-    --paper-raised:#F7F5EF;
-    --ink:#1B1D1B;
-    --ink-soft:#54564F;
-    --ink-faint:#8B8D84;
-    --rule:#CBC6B8;
-    --stamp-red:#7A2E2A;
-    --stamp-red-soft:#7A2E2A1a;
-    --flag-amber:#8A5A12;
-    --flag-amber-soft:#8A5A1214;
-    --verify-green:#33553F;
-    --verify-green-soft:#33553F14;
-    --serif: 'Fraunces', Georgia, serif;
+    --paper:#F3F0E8;
+    --paper-raised:#FBFAF6;
+    --ink:#1C1D1E;
+    --ink-soft:#54524A;
+    --ink-faint:#8C8A7F;
+    --rule:#D8D2C0;
+    --navy:#233A5E;
+    --gold:#B4842A;
+    --green:#2E6350;
+    --red:#8C3A2B;
+    --purple:#5B4E82;
+    --teal:#2C6E72;
     --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --serif: 'Fraunces', Georgia, serif;
     --mono: 'IBM Plex Mono', ui-monospace, monospace;
-    --maxw: 780px;
+    --maxw: 800px;
   }
-
   *{ margin:0; padding:0; box-sizing:border-box; }
-
   html{ scroll-behavior:smooth; }
+  body{ font-family: var(--sans); background: var(--paper); color: var(--ink); line-height:1.65; font-size:17px; }
+  ::selection{ background: var(--gold); color:#fff; }
+  a{ color:inherit; }
+  img,svg{ max-width:100%; }
 
-  body{
-    font-family: var(--sans);
-    background: var(--paper);
-    color: var(--ink);
-    line-height: 1.65;
-    font-size: 17px;
-  }
-
-  ::selection{ background: var(--flag-amber); color: var(--paper-raised); }
-
-  a{ color: inherit; }
-
-  /* ============ NAV ============ */
-  .nav{
-    position: fixed; top:0; left:0; right:0; z-index: 100;
-    background: rgba(238,236,228,0.92);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--rule);
-  }
-  .nav-inner{
-    max-width: 1040px; margin:0 auto; padding: 14px 28px;
-    display:flex; align-items:center; justify-content:space-between; gap: 20px;
-  }
-  .nav-brand{
-    font-family: var(--serif); font-weight:600; font-size: 17px; letter-spacing: 0.02em;
-    display:flex; align-items:center; gap:10px; white-space:nowrap;
-  }
-  .nav-brand .tag{
-    font-family: var(--mono); font-size: 10px; letter-spacing:0.08em;
-    color: var(--stamp-red); border:1px solid var(--stamp-red); border-radius:3px;
-    padding: 2px 6px; text-transform:uppercase;
-  }
-  .nav-links{
-    display:flex; gap:22px; overflow-x:auto; font-size: 13px; font-family: var(--mono);
-    letter-spacing: 0.01em; scrollbar-width:none;
-  }
+  /* NAV */
+  .nav{ position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(243,240,232,0.94); backdrop-filter: blur(8px); border-bottom:1px solid var(--rule); }
+  .nav-inner{ max-width:1080px; margin:0 auto; padding:14px 26px; display:flex; align-items:center; justify-content:space-between; gap:18px; }
+  .nav-logo{ font-family: var(--serif); font-weight:700; font-size:18px; letter-spacing:0.01em; }
+  .mobile-btn{ display:none; background:none; border:1px solid var(--rule); border-radius:6px; padding:6px 10px; font-family:var(--mono); cursor:pointer; }
+  .nav-links{ display:flex; gap:20px; overflow-x:auto; font-family:var(--mono); font-size:12.5px; scrollbar-width:none; }
   .nav-links::-webkit-scrollbar{ display:none; }
-  .nav-links a{ text-decoration:none; color: var(--ink-soft); white-space:nowrap; transition: color .15s; }
-  .nav-links a:hover{ color: var(--stamp-red); }
-
-  /* ============ COVER ============ */
-  .cover{
-    min-height: 100vh;
-    display:flex; flex-direction:column; justify-content:center;
-    padding: 140px 28px 90px;
-    position: relative;
-    border-bottom: 1px solid var(--rule);
-  }
-  .cover-inner{ max-width: var(--maxw); margin: 0 auto; width:100%; position:relative; }
-
-  .eyebrow{
-    font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em;
-    text-transform: uppercase; color: var(--ink-soft); margin-bottom: 22px;
+  .nav-links a{ text-decoration:none; color:var(--ink-soft); white-space:nowrap; padding:4px 0; border-bottom:2px solid transparent; transition:.15s; }
+  .nav-links a:hover{ color:var(--navy); border-color:var(--gold); }
+  @media (max-width:860px){
+    .mobile-btn{ display:block; }
+    .nav-links{ display:none; position:absolute; top:100%; left:0; right:0; background:var(--paper-raised); flex-direction:column; padding:14px 26px; border-bottom:1px solid var(--rule); max-height:70vh; overflow-y:auto; }
+    .nav-links.open{ display:flex; }
   }
 
-  .cover h1{
-    font-family: var(--serif);
-    font-weight: 600;
-    font-size: clamp(40px, 7vw, 68px);
-    line-height: 1.03;
-    letter-spacing: -0.01em;
-  }
+  /* COVER */
+  .cover{ min-height:92vh; display:flex; flex-direction:column; justify-content:center; padding:150px 26px 80px; border-bottom:1px solid var(--rule); position:relative; overflow:hidden; }
+  .cover::before{ content:''; position:absolute; inset:0; background:
+      radial-gradient(circle at 15% 85%, rgba(35,58,94,0.06) 0%, transparent 45%),
+      radial-gradient(circle at 85% 15%, rgba(180,132,42,0.08) 0%, transparent 45%); pointer-events:none; }
+  .cover-inner{ max-width:var(--maxw); margin:0 auto; width:100%; position:relative; }
+  .eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--navy); margin-bottom:20px; }
+  .cover h1{ font-family:var(--serif); font-weight:700; font-size:clamp(46px,8vw,78px); line-height:0.98; letter-spacing:-0.01em; }
+  .cover .sub{ font-family:var(--serif); font-style:italic; font-weight:400; font-size:clamp(19px,2.6vw,25px); color:var(--ink-soft); margin-top:16px; }
+  .cover-desc{ max-width:640px; margin-top:28px; color:var(--ink-soft); font-size:16.5px; }
+  .cover-badges{ display:flex; flex-wrap:wrap; gap:10px; margin-top:32px; }
+  .badge{ font-family:var(--mono); font-size:12px; border:1px solid var(--rule); background:var(--paper-raised); border-radius:20px; padding:6px 14px; color:var(--ink-soft); }
+  .meta-row{ margin-top:54px; display:flex; flex-wrap:wrap; gap:32px; font-family:var(--mono); font-size:12.5px; color:var(--ink-soft); border-top:1px solid var(--rule); padding-top:22px; }
+  .meta-row div strong{ display:block; color:var(--ink); font-family:var(--sans); font-size:13.5px; margin-bottom:3px; }
 
-  .cover .sub{
-    font-family: var(--serif); font-style: italic; font-weight:400;
-    font-size: clamp(18px, 2.4vw, 24px); color: var(--ink-soft); margin-top: 14px;
-  }
+  /* hero sparkline signature */
+  .hero-viz{ margin-top:44px; border:1px solid var(--rule); border-radius:8px; background:var(--paper-raised); padding:22px 22px 14px; }
+  .hero-viz-label{ font-family:var(--mono); font-size:11.5px; color:var(--ink-faint); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px; }
 
-  .cover-desc{
-    max-width: 620px; margin-top: 30px; color: var(--ink-soft); font-size: 16.5px;
-  }
+  /* TOC */
+  .toc-wrap{ background:var(--paper-raised); border-bottom:1px solid var(--rule); }
+  .toc{ max-width:var(--maxw); margin:0 auto; padding:70px 26px; }
+  .toc-list{ list-style:none; columns:2; column-gap:40px; }
+  @media (max-width:640px){ .toc-list{ columns:1; } }
+  .toc-list li{ break-inside:avoid; margin-bottom:13px; }
+  .toc-list a{ display:flex; gap:12px; text-decoration:none; font-size:15px; color:var(--ink); }
+  .toc-list a:hover{ color:var(--navy); }
+  .toc-list .n{ font-family:var(--mono); color:var(--ink-faint); font-size:13px; min-width:22px; }
 
-  .stamp{
-    position: absolute; top: -18px; right: 6px;
-    width: 168px; height:168px;
-    transform: rotate(9deg);
-    opacity: 0.94;
-  }
-  @media (max-width: 720px){ .stamp{ position: static; margin: 30px auto 0; transform: rotate(6deg); } }
-
-  .meta-row{
-    margin-top: 56px; display:flex; flex-wrap:wrap; gap: 34px;
-    font-family: var(--mono); font-size: 12.5px; color: var(--ink-soft);
-    border-top: 1px solid var(--rule); padding-top: 24px;
-  }
-  .meta-row div strong{ display:block; color: var(--ink); font-family: var(--sans); font-size: 13.5px; margin-bottom: 3px; }
-
-  /* ============ TOC ============ */
-  .toc-wrap{ background: var(--paper-raised); border-bottom: 1px solid var(--rule); }
-  .toc{ max-width: var(--maxw); margin: 0 auto; padding: 70px 28px; }
-  .toc .eyebrow{ margin-bottom: 18px; }
-  .toc-list{ list-style:none; columns: 2; column-gap: 40px; }
-  @media (max-width: 640px){ .toc-list{ columns:1; } }
-  .toc-list li{ break-inside: avoid; margin-bottom: 14px; }
-  .toc-list a{
-    display:flex; gap:12px; text-decoration:none; font-size: 15px; color: var(--ink);
-    padding: 5px 0; border-bottom: 1px dotted transparent;
-  }
-  .toc-list a:hover{ border-color: var(--ink-faint); }
-  .toc-list .n{ font-family: var(--mono); color: var(--ink-faint); font-size: 13px; min-width: 22px; }
-
-  /* ============ SECTIONS ============ */
-  section.doc{
-    max-width: var(--maxw); margin: 0 auto; padding: 90px 28px;
-    border-bottom: 1px solid var(--rule);
-  }
+  /* SECTIONS */
+  section.doc{ max-width:var(--maxw); margin:0 auto; padding:88px 26px; border-bottom:1px solid var(--rule); }
   section.doc:last-of-type{ border-bottom:none; }
-
-  .sec-number{
-    font-family: var(--mono); font-size: 13px; color: var(--stamp-red);
-    letter-spacing: 0.08em; margin-bottom: 12px; display:block;
-  }
-
-  section.doc h2.title{
-    font-family: var(--serif); font-weight:600; font-size: clamp(28px, 4vw, 38px);
-    line-height:1.1; margin-bottom: 30px; letter-spacing:-0.01em;
-  }
-
-  section.doc h3{
-    font-family: var(--serif); font-weight: 600; font-size: 22px; margin: 40px 0 14px;
-  }
-  section.doc h4{
-    font-family: var(--sans); font-weight:700; font-size: 15px; margin: 26px 0 10px;
-    text-transform: uppercase; letter-spacing: 0.03em; color: var(--ink-soft);
-  }
-
-  section.doc p{ margin-bottom: 16px; color: var(--ink); max-width: 66ch; }
-  section.doc p.lede{
-    font-family: var(--serif); font-size: 21px; line-height: 1.5; color: var(--ink);
-    max-width: 68ch; margin-bottom: 22px;
-  }
-  section.doc ul, section.doc ol{ margin: 0 0 18px 22px; max-width: 66ch; }
-  section.doc li{ margin-bottom: 9px; }
+  .sec-number{ font-family:var(--mono); font-size:13px; color:var(--gold); letter-spacing:0.08em; margin-bottom:12px; display:block; }
+  section.doc h2.title{ font-family:var(--serif); font-weight:700; font-size:clamp(28px,4vw,38px); line-height:1.1; margin-bottom:26px; letter-spacing:-0.01em; }
+  section.doc h3{ font-family:var(--serif); font-weight:600; font-size:23px; margin:42px 0 14px; }
+  section.doc h4.sub{ font-family:var(--sans); font-weight:700; font-size:14.5px; margin:28px 0 10px; text-transform:uppercase; letter-spacing:0.03em; color:var(--ink-soft); }
+  section.doc p{ margin-bottom:16px; max-width:68ch; }
+  section.doc p.lede{ font-family:var(--serif); font-size:21px; line-height:1.5; max-width:70ch; margin-bottom:22px; }
+  section.doc ul, section.doc ol{ margin:0 0 18px 22px; max-width:68ch; }
+  section.doc li{ margin-bottom:8px; }
   section.doc strong{ font-weight:600; }
 
-  /* verdict callouts */
-  .callout{
-    border-left: 3px solid; padding: 20px 24px; margin: 26px 0;
-    background: var(--paper-raised); border-radius: 0 4px 4px 0;
-  }
-  .callout h4{ margin-top:0; display:flex; align-items:center; gap:8px; }
-  .callout.works{ border-color: var(--verify-green); }
-  .callout.works h4{ color: var(--verify-green); }
-  .callout.flag{ border-color: var(--flag-amber); }
-  .callout.flag h4{ color: var(--flag-amber); }
-  .callout.critical{ border-color: var(--stamp-red); }
-  .callout.critical h4{ color: var(--stamp-red); }
-  .callout.note{ border-color: var(--ink-faint); }
-  .callout.note h4{ color: var(--ink-soft); }
-
-  /* verdict grid: works vs doesn't */
-  .verdict-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 22px; margin: 30px 0; }
-  @media (max-width: 680px){ .verdict-grid{ grid-template-columns: 1fr; } }
-  .verdict-col{ background: var(--paper-raised); padding: 24px 22px; border-radius: 6px; }
-  .verdict-col.pos{ border-top: 3px solid var(--verify-green); }
-  .verdict-col.neg{ border-top: 3px solid var(--stamp-red); }
-  .verdict-col h4{ margin-top:0; }
-  .verdict-col.pos h4{ color: var(--verify-green); }
-  .verdict-col.neg h4{ color: var(--stamp-red); }
-  .verdict-col ul{ margin-left: 18px; }
-  .verdict-col li{ font-size: 15px; }
+  /* callout boxes */
+  .box{ border-left:3px solid; padding:20px 24px; margin:24px 0; background:var(--paper-raised); border-radius:0 6px 6px 0; }
+  .box h4{ margin:0 0 8px; font-size:15px; display:flex; align-items:center; gap:8px; }
+  .box.info{ border-color:var(--navy); } .box.info h4{ color:var(--navy); }
+  .box.success{ border-color:var(--green); } .box.success h4{ color:var(--green); }
+  .box.warning{ border-color:var(--gold); } .box.warning h4{ color:var(--gold); }
+  .box.critical{ border-color:var(--red); } .box.critical h4{ color:var(--red); }
+  .box.feasible{ border-color:var(--teal); background: color-mix(in srgb, var(--teal) 6%, var(--paper-raised)); } .box.feasible h4{ color:var(--teal); }
 
   /* tables */
-  .tbl-wrap{ overflow-x:auto; margin: 26px 0; border:1px solid var(--rule); border-radius: 6px; }
-  table{ width:100%; border-collapse: collapse; font-size: 14.5px; background: var(--paper-raised); }
-  th, td{ text-align:left; padding: 12px 16px; border-bottom: 1px solid var(--rule); vertical-align: top; }
-  th{ font-family: var(--mono); font-size: 11.5px; text-transform:uppercase; letter-spacing:0.04em; color: var(--ink-soft); background: var(--paper); }
+  .tbl-wrap{ overflow-x:auto; margin:26px 0; border:1px solid var(--rule); border-radius:8px; }
+  table{ width:100%; border-collapse:collapse; font-size:14px; background:var(--paper-raised); }
+  th, td{ text-align:left; padding:11px 15px; border-bottom:1px solid var(--rule); vertical-align:top; }
+  th{ font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:0.03em; color:var(--ink-soft); background:var(--paper); }
   tr:last-child td{ border-bottom:none; }
-  tr.flagrow td:first-child{ box-shadow: inset 3px 0 0 var(--stamp-red); }
-  tr.okrow td:first-child{ box-shadow: inset 3px 0 0 var(--verify-green); }
+  tr.hl td{ background: color-mix(in srgb, var(--gold) 8%, var(--paper-raised)); font-weight:600; }
 
-  /* weight bars for GCBI */
-  .weight-row{ display:flex; align-items:center; gap: 14px; margin-bottom: 12px; }
-  .weight-label{ font-family: var(--mono); font-size: 13px; width: 64px; flex-shrink:0; }
-  .weight-bar-bg{ flex:1; background: var(--rule); height: 10px; border-radius: 5px; overflow:hidden; }
-  .weight-bar{ height:100%; background: var(--ink); border-radius:5px; }
-  .weight-pct{ font-family: var(--mono); font-size:13px; width: 40px; text-align:right; color: var(--ink-soft); }
+  /* chart containers */
+  .chart-box{ background:var(--paper-raised); border:1px solid var(--rule); border-radius:8px; padding:22px; margin:26px 0; }
+  .chart-title{ font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-soft); margin-bottom:16px; }
+  .chart-box canvas{ max-height:340px; }
 
-  /* rating scale */
-  .rating-scale{ display:flex; gap:2px; margin: 30px 0; font-family: var(--mono); font-size: 11px; }
-  .rating-scale div{ flex:1; text-align:center; padding: 10px 4px; color:#fff; }
-  .rating-scale .active{ outline: 2px solid var(--ink); outline-offset:-2px; font-weight:700; }
+  /* phase cards */
+  .phase-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:18px; margin:26px 0; }
+  .phase-card{ background:var(--paper-raised); border:1px solid var(--rule); border-radius:10px; padding:22px; border-top:4px solid var(--navy); }
+  .phase-card.p0{ border-top-color:var(--ink-faint); }
+  .phase-card.p2{ border-top-color:var(--gold); }
+  .phase-card.p3{ border-top-color:var(--green); }
+  .phase-num{ font-family:var(--mono); font-size:11px; letter-spacing:0.1em; color:var(--ink-faint); margin-bottom:6px; }
+  .phase-title{ font-family:var(--serif); font-weight:600; font-size:19px; margin-bottom:10px; }
+  .phase-card ul{ margin:12px 0 0 18px; font-size:14px; }
+  .phase-card li{ margin-bottom:6px; }
 
-  /* phase timeline */
-  .phase-list{ margin: 24px 0; }
-  .phase{ display:grid; grid-template-columns: 90px 1fr; gap: 18px; padding: 20px 0; border-top: 1px solid var(--rule); }
-  .phase:first-child{ border-top:none; }
-  .phase-tag{ font-family: var(--mono); font-size: 12px; color: var(--ink-faint); padding-top:3px; }
-  .phase h4{ margin: 0 0 8px; text-transform:none; letter-spacing:0; font-size:17px; color: var(--ink); }
+  /* timeline */
+  .tl{ margin:26px 0; }
+  .tl-item{ display:grid; grid-template-columns:150px 1fr; gap:18px; padding:20px 0; border-top:1px solid var(--rule); }
+  .tl-item:first-child{ border-top:none; }
+  .tl-date{ font-family:var(--mono); font-size:12px; color:var(--gold); padding-top:3px; }
+  .tl-item h4{ margin:0 0 8px; text-transform:none; letter-spacing:0; font-size:16.5px; color:var(--ink); font-family:var(--sans); font-weight:700; }
+  .tl-item ul{ margin-left:18px; font-size:14.5px; }
 
-  blockquote{
-    font-family: var(--serif); font-style: italic; font-size: 19px; line-height:1.5;
-    color: var(--ink-soft); border-left: 2px solid var(--ink); padding-left: 20px; margin: 26px 0;
-  }
+  /* scenario cards */
+  .scenario-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:18px; margin:26px 0; }
+  .scenario{ border-radius:10px; padding:22px; background:var(--paper-raised); border:1px solid var(--rule); }
+  .scenario.bear{ border-top:4px solid var(--red); }
+  .scenario.base{ border-top:4px solid var(--gold); }
+  .scenario.bull{ border-top:4px solid var(--green); }
+  .scenario .prob{ font-family:var(--mono); font-size:12px; color:var(--ink-faint); margin-bottom:6px; }
+  .scenario h4{ font-family:var(--serif); font-size:19px; margin-bottom:10px; text-transform:none; letter-spacing:0; }
+  .scenario ul{ margin:0 0 0 16px; font-size:13.8px; }
+  .scenario li{ margin-bottom:6px; }
 
-  /* footer */
-  footer{ background: var(--ink); color: var(--paper); padding: 60px 28px 40px; }
-  .footer-inner{ max-width: var(--maxw); margin:0 auto; }
-  footer .eyebrow{ color: #C9C4B8; }
-  footer p{ color: #C9C4B8; font-size: 14px; max-width: 60ch; margin-bottom: 10px; }
-  footer .disclaimer{ margin-top: 30px; padding-top: 24px; border-top: 1px solid #3a3c38; font-size: 12.5px; color:#9a9c94; }
+  /* project cards (GLDX/GNDX) */
+  .project-card{ background:var(--paper-raised); border:1px solid var(--rule); border-radius:10px; padding:26px; margin:24px 0; }
+  .project-logo{ font-family:var(--serif); font-weight:700; font-size:24px; }
+  .project-tagline{ color:var(--ink-soft); font-size:14px; margin-bottom:14px; }
 
-  @media (max-width: 640px){
-    section.doc{ padding: 60px 22px; }
-    .cover{ padding-top: 110px; }
-  }
+  blockquote{ font-family:var(--serif); font-style:italic; font-size:19px; line-height:1.5; color:var(--ink-soft); border-left:2px solid var(--navy); padding-left:20px; margin:26px 0; }
+
+  footer{ background:var(--ink); color:var(--paper); padding:60px 26px 40px; }
+  .footer-inner{ max-width:var(--maxw); margin:0 auto; }
+  footer .eyebrow{ color:#C9C4B4; }
+  footer p{ color:#C9C4B4; font-size:14px; max-width:64ch; margin-bottom:10px; }
+  footer .fine{ margin-top:26px; padding-top:22px; border-top:1px solid #3a3c38; font-size:12px; color:#9a9c8f; }
+
+  @media (max-width:640px){ section.doc{ padding:56px 20px; } .cover{ padding-top:110px; } }
 </style>
 </head>
 <body>
 
 <div class="nav">
   <div class="nav-inner">
-    <div class="nav-brand">GLOVEX <span class="tag">Auditoría</span></div>
-    <div class="nav-links">
-      <a href="#veredicto">Veredicto</a>
-      <a href="#resumen">Resumen</a>
-      <a href="#mecanismo">Mecanismo</a>
-      <a href="#funciona">A favor</a>
-      <a href="#no-cuadra">En contra</a>
+    <div class="nav-logo">GLOVEX</div>
+    <button class="mobile-btn" id="mbtn">Menu</button>
+    <div class="nav-links" id="navLinks">
+      <a href="#exec">Executive Summary</a>
+      <a href="#roadmap0">Foundation & Phases</a>
+      <a href="#mechanism">Mechanism</a>
+      <a href="#gcbi">GCBI</a>
       <a href="#tokenomics">Tokenomics</a>
-      <a href="#competencia">Competencia</a>
+      <a href="#market">Market</a>
+      <a href="#feasibility">Feasibility</a>
+      <a href="#protocol">Protocol</a>
+      <a href="#future">Ecosystem</a>
+      <a href="#risks">Risks</a>
       <a href="#legal">Legal</a>
-      <a href="#recomendaciones">Rediseño</a>
+      <a href="#conclusion">Conclusion</a>
     </div>
   </div>
 </div>
@@ -262,32 +186,27 @@
 <!-- COVER -->
 <div class="cover">
   <div class="cover-inner">
-    <div class="eyebrow">Informe de auditoría independiente · No es asesoría financiera</div>
+    <div class="eyebrow">Whitepaper v6.0 · Revised & Feasibility-Enhanced Edition</div>
     <h1>GLOVEX</h1>
-    <div class="sub">Stablecoin algorítmica multi-divisa — ¿tiene sentido la idea?</div>
+    <div class="sub">Global Value Exchange — a currency-basket-linked digital asset, built to become collateralized</div>
     <p class="cover-desc">
-      Este documento revisa el whitepaper original de GLOVEX punto por punto: qué propone, qué parte de la idea es sólida,
-      dónde se repiten errores ya conocidos de otras stablecoins algorítmicas, y cómo debería reescribirse el proyecto
-      para que su promesa central — una moneda estable respaldada por una canasta de divisas — sea creíble.
+      GLOVEX is a multi-currency digital asset whose reference value tracks the Global Currency Basket Index (GCBI) —
+      a weighted basket of six major fiat currencies — and evolves through a funded, auditable path toward full collateralization.
+      This edition strengthens the original design with a funded foundation phase, realistic scenario planning, and a
+      clearer path from community token to credible reserve asset.
     </p>
-
-    <svg class="stamp" viewBox="0 0 200 200">
-      <circle cx="100" cy="100" r="94" fill="none" stroke="#7A2E2A" stroke-width="3"/>
-      <circle cx="100" cy="100" r="80" fill="none" stroke="#7A2E2A" stroke-width="1"/>
-      <path id="stampCircle" d="M100,100 m-62,0 a62,62 0 1,1 124,0 a62,62 0 1,1 -124,0" fill="none"/>
-      <text font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#7A2E2A" letter-spacing="2.5">
-        <textPath href="#stampCircle" startOffset="2%">AUDITORÍA · INDEPENDIENTE · NO ES ASESORÍA · </textPath>
-      </text>
-      <text x="100" y="94" font-family="Fraunces, serif" font-weight="700" font-size="34" fill="#7A2E2A" text-anchor="middle">CCC</text>
-      <text x="100" y="118" font-family="IBM Plex Mono, monospace" font-size="9" fill="#7A2E2A" text-anchor="middle" letter-spacing="1">ESPECULATIVO</text>
-      <text x="100" y="130" font-family="IBM Plex Mono, monospace" font-size="9" fill="#7A2E2A" text-anchor="middle" letter-spacing="1">ALTO RIESGO</text>
-    </svg>
+    <div class="cover-badges">
+      <span class="badge">GCBI-linked</span>
+      <span class="badge">Progressive collateralization</span>
+      <span class="badge">Multi-oracle</span>
+      <span class="badge">BSC · BEP-20</span>
+    </div>
 
     <div class="meta-row">
-      <div><strong>Objeto auditado</strong>whitepaper original v5.0, repo aleviercas/glovex</div>
-      <div><strong>Fecha</strong>Julio 2026</div>
-      <div><strong>Versión de este informe</strong>v1.0</div>
-      <div><strong>Alcance</strong>Coherencia de producto, tokenomics, riesgo, redacción</div>
+      <div><strong>Token</strong>GLVX (BEP-20)</div>
+      <div><strong>Reference value</strong>1 GCBI</div>
+      <div><strong>Version</strong>6.0 — July 2026</div>
+      <div><strong>Network</strong>Binance Smart Chain</div>
     </div>
   </div>
 </div>
@@ -295,333 +214,698 @@
 <!-- TOC -->
 <div class="toc-wrap">
   <div class="toc">
-    <span class="eyebrow">Contenido</span>
+    <span class="eyebrow">Contents</span>
     <ul class="toc-list">
-      <li><a href="#veredicto"><span class="n">00</span> Veredicto en una página</a></li>
-      <li><a href="#resumen"><span class="n">01</span> Qué es GLOVEX</a></li>
-      <li><a href="#mecanismo"><span class="n">02</span> El mecanismo, explicado</a></li>
-      <li><a href="#funciona"><span class="n">03</span> Lo que sí tiene sentido</a></li>
-      <li><a href="#no-cuadra"><span class="n">04</span> Lo que no cuadra</a></li>
-      <li><a href="#tokenomics"><span class="n">05</span> Tokenomics y modelo</a></li>
-      <li><a href="#gcbi"><span class="n">06</span> La canasta GCBI</a></li>
-      <li><a href="#competencia"><span class="n">07</span> Panorama competitivo</a></li>
-      <li><a href="#riesgos"><span class="n">08</span> Riesgos y salvaguardas</a></li>
-      <li><a href="#legal"><span class="n">09</span> Legal y divulgación</a></li>
-      <li><a href="#recomendaciones"><span class="n">10</span> Cómo lo reescribiríamos</a></li>
-      <li><a href="#conclusion"><span class="n">11</span> Conclusión</a></li>
+      <li><a href="#exec"><span class="n">01</span> Executive Summary</a></li>
+      <li><a href="#roadmap0"><span class="n">02</span> Foundation & Phased Evolution</a></li>
+      <li><a href="#mechanism"><span class="n">03</span> Algorithmic Stability Mechanism</a></li>
+      <li><a href="#gcbi"><span class="n">04</span> Global Currency Basket Index</a></li>
+      <li><a href="#tokenomics"><span class="n">05</span> Tokenomics</a></li>
+      <li><a href="#market"><span class="n">06</span> Market & Competitive Landscape</a></li>
+      <li><a href="#feasibility"><span class="n">07</span> Feasibility & Scenario Analysis</a></li>
+      <li><a href="#protocol"><span class="n">08</span> Protocol Design</a></li>
+      <li><a href="#future"><span class="n">09</span> Future Ecosystem Projects</a></li>
+      <li><a href="#risks"><span class="n">10</span> Risk Analysis & Mitigation</a></li>
+      <li><a href="#legal"><span class="n">11</span> Legal & Risk Disclosure</a></li>
+      <li><a href="#conclusion"><span class="n">12</span> Roadmap & Conclusion</a></li>
     </ul>
   </div>
 </div>
 
-<!-- 00 VEREDICTO -->
-<section class="doc" id="veredicto">
-  <span class="sec-number">00 / VEREDICTO EN UNA PÁGINA</span>
-  <h2 class="title">Una buena idea de fondo, envuelta en un producto que aún no existe</h2>
+<!-- 01 EXECUTIVE SUMMARY -->
+<section class="doc" id="exec">
+  <span class="sec-number">01 / EXECUTIVE SUMMARY</span>
+  <h2 class="title">Engineering a global, multi-currency unit of stable value</h2>
 
-  <p class="lede">La premisa de GLOVEX — un token cuyo valor sigue una canasta de divisas globales (GCBI) en lugar de una sola moneda — es razonable y tiene precedentes reales, como los derechos especiales de giro del FMI o los diseños fraccional-algorítmicos que sí funcionaron parcialmente en DeFi. El problema no es la idea. Es que el whitepaper presenta esa idea como si ya estuviera resuelta, cuando en realidad la Fase 1 no tiene ni colateral, ni mecanismo de precio funcionando, ni equipo identificado — y aun así usa el lenguaje de un "investment thesis" con objetivos de precio y "ROI infinito".</p>
+  <p class="lede">GLOVEX is a next-generation multi-currency digital asset backed by a dynamically weighted basket of the world's most liquid fiat currencies. Through adaptive algorithmic mechanisms and a funded, progressive path to collateralization, it aims to maintain value stability across macroeconomic shifts — creating a bridge between traditional finance and the decentralized digital economy.</p>
 
-  <div class="rating-scale">
-    <div style="background:#33553F">AAA</div>
-    <div style="background:#4a6b52">AA</div>
-    <div style="background:#6a7d55">A</div>
-    <div style="background:#8f8850">BBB</div>
-    <div style="background:#a67b3a">BB</div>
-    <div class="active" style="background:#8A5A12">B</div>
-    <div style="background:#7A2E2A">CCC</div>
-    <div style="background:#5c1f1c">CC / D</div>
+  <p>Purpose-built for cross-border payments, foreign exchange, international trade, and treasury diversification, GLOVEX combines the capital efficiency of algorithmic design with the credibility of real collateral, delivered through a carefully staged, funded evolution.</p>
+
+  <div class="box info">
+    <h4>What makes this version different from a typical algorithmic stablecoin</h4>
+    <ul>
+      <li><strong>Funded foundation:</strong> a Phase 0 legal, audit, and seed-liquidity stage precedes any public token distribution</li>
+      <li><strong>Seeded launch, not a bare peg:</strong> Phase 1 begins with real starting collateral rather than none</li>
+      <li><strong>Multi-currency foundation:</strong> built on the GCBI basket, not a single-currency peg</li>
+      <li><strong>Conservative parameters:</strong> maximum 5% supply change per stability operation, multi-oracle pricing</li>
+      <li><strong>Transparent treasury:</strong> all treasury operations published and verifiable on-chain</li>
+      <li><strong>Honest framing:</strong> scenario planning replaces return promises — see Section 07</li>
+    </ul>
   </div>
 
-  <div class="verdict-grid">
-    <div class="verdict-col pos">
-      <h4>Se sostiene</h4>
+  <h3>Lessons Applied From Previous Algorithmic Stablecoins</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Project</th><th>What went wrong</th><th>GLOVEX's design response</th></tr></thead>
+      <tbody>
+        <tr><td><strong>UST / Terra</strong></td><td>No real collateral behind the peg; unsustainable yield promises</td><td>Seeded collateral from launch, no yield promises, utility-first framing</td></tr>
+        <tr><td><strong>Basis Cash</strong></td><td>Complex multi-token bond/share system, hard to reason about</td><td>Single-token model with a simple, published stability rule</td></tr>
+        <tr><td><strong>Empty Set Dollar</strong></td><td>Aggressive, uncapped rebase mechanics</td><td>Capped at 5% supply change per operation, hourly cadence</td></tr>
+        <tr><td><strong>Fei Protocol</strong></td><td>Direct incentive mismatches drove volatility</td><td>Gradual, rules-based market operations with circuit breakers</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 02 FOUNDATION & PHASES -->
+<section class="doc" id="roadmap0">
+  <span class="sec-number">02 / FOUNDATION & PHASED EVOLUTION</span>
+  <h2 class="title">A funded starting point, then three phases of increasing collateralization</h2>
+
+  <p>The single biggest improvement in this edition is structural: <strong>GLOVEX no longer launches from zero.</strong> A dedicated foundation stage precedes the original Phase 1, so that the algorithmic mechanism always has at least a partial real anchor to work with, instead of relying on market confidence alone.</p>
+
+  <div class="phase-grid">
+    <div class="phase-card p0">
+      <div class="phase-num">PHASE 0 · PRE-LAUNCH</div>
+      <div class="phase-title">Foundation</div>
+      <p><strong>Timeline:</strong> before public launch</p>
       <ul>
-        <li>Una canasta de 6 divisas líquidas como referencia de valor</li>
-        <li>La estrategia de evolución en tres fases, en teoría</li>
-        <li>Los frenos de emergencia frente al modelo de UST/Terra</li>
+        <li>Legal entity formation and named core team</li>
+        <li>Independent smart-contract audit completed, not scheduled</li>
+        <li>Seed liquidity secured (target 10–15% of initial supply value)</li>
+        <li>Multi-sig treasury wallet published and verifiable</li>
       </ul>
     </div>
-    <div class="verdict-col neg">
-      <h4>No se sostiene, todavía</h4>
+    <div class="phase-card">
+      <div class="phase-num">PHASE 1 · 2026 Q1–Q2</div>
+      <div class="phase-title">Seeded Algorithmic</div>
+      <p><strong>Collateral:</strong> 10–15% (seeded, not zero)</p>
       <ul>
-        <li>Precio objetivo sin colateral ni redención en Fase 1</li>
-        <li>El mecanismo de estabilización no está implementado, solo especificado</li>
-        <li>Lenguaje de retorno de inversión sobre un token sin respaldo</li>
-        <li>Ningún equipo, entidad legal ni auditoría real, solo planeada</li>
+        <li>Algorithmic mechanism live, with a partial real reserve behind it</li>
+        <li>Community airdrop and DEX price discovery</li>
+        <li>GCBI used as the reference peg</li>
+      </ul>
+    </div>
+    <div class="phase-card p2">
+      <div class="phase-num">PHASE 2 · 2026 Q3–Q4</div>
+      <div class="phase-title">Hybrid Model</div>
+      <p><strong>Collateral:</strong> 20–40%, funding-dependent</p>
+      <ul>
+        <li>Limited redemption mechanism activated</li>
+        <li>Oracle network expanded, first CEX listings</li>
+        <li>Contingency plan applies if funding target is missed (see below)</li>
+      </ul>
+    </div>
+    <div class="phase-card p3">
+      <div class="phase-num">PHASE 3 · 2027+</div>
+      <div class="phase-title">Full Collateralization</div>
+      <p><strong>Collateral:</strong> 100%+</p>
+      <ul>
+        <li>Full redemption rights, DAO governance</li>
+        <li>Institutional-grade integrations</li>
       </ul>
     </div>
   </div>
 
-  <p>Nuestra recomendación es simple: <strong>separar el proyecto en dos documentos.</strong> Uno que presente la Fase 1 honestamente como un experimento de comunidad sin valor garantizado, y otro — publicado solo cuando exista colateral real, código auditado y un equipo con nombre — que pueda llamarse legítimamente una "tesis de inversión". Tal como está, el documento actual mezcla ambos y hereda los riesgos regulatorios y reputacionales de esa mezcla.</p>
-</section>
-
-<!-- 01 RESUMEN -->
-<section class="doc" id="resumen">
-  <span class="sec-number">01 / QUÉ ES GLOVEX</span>
-  <h2 class="title">La propuesta, sin el envoltorio de marketing</h2>
-
-  <p>GLOVEX (token GLVX, red BSC) se define como una "stablecoin híbrida algorítmica multi-divisa". En vez de anclarse al dólar como USDT o USDC, su precio objetivo es 1 <strong>GCBI</strong> — un índice compuesto por seis divisas fiat: dólar (30%), euro (25%), yuan (15%), yen (10%), libra (10%) y franco suizo (10%). La lógica detrás de esa canasta es la misma que sostiene los Derechos Especiales de Giro del FMI: ninguna divisa sola es tan estable como una combinación bien diversificada de varias.</p>
-
-  <p>El proyecto se plantea en tres fases:</p>
-
-  <div class="phase-list">
-    <div class="phase">
-      <div class="phase-tag">FASE 1<br>2026</div>
-      <div>
-        <h4>Fundación algorítmica — 0% colateral</h4>
-        <p>El precio se sostiene únicamente por emisión y quema algorítmica de tokens. No hay redención, no hay activos de respaldo. Es, en la práctica, un token de referencia especulativo.</p>
-      </div>
-    </div>
-    <div class="phase">
-      <div class="phase-tag">FASE 2<br>2026-27</div>
-      <div>
-        <h4>Modelo híbrido — 20-40% colateral</h4>
-        <p>Condicionada a levantar entre 100 y 250 mil dólares. Introduce redención limitada y un puente real entre el token y activos reales.</p>
-      </div>
-    </div>
-    <div class="phase">
-      <div class="phase-tag">FASE 3<br>2027+</div>
-      <div>
-        <h4>Gobernanza DAO — 100%+ colateral</h4>
-        <p>Redención completa, gobernanza comunitaria, adopción institucional. Condicionada a levantar 500 mil dólares o más.</p>
-      </div>
-    </div>
+  <h3>Detailed Phase Comparison</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Feature</th><th>Phase 0</th><th>Phase 1</th><th>Phase 2</th><th>Phase 3</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Collateralization</strong></td><td>n/a</td><td>10–15%</td><td>20–40%</td><td>100%+</td></tr>
+        <tr><td><strong>Redemption</strong></td><td>n/a</td><td>None</td><td>Limited</td><td>Full</td></tr>
+        <tr><td><strong>Governance</strong></td><td>Founding team</td><td>Team-led</td><td>Community input</td><td>DAO</td></tr>
+        <tr><td><strong>Legal status</strong></td><td>Entity formed</td><td>Utility/reference token</td><td>Hybrid asset</td><td>Regulated stable asset (target)</td></tr>
+        <tr><td><strong>Market cap target</strong></td><td>—</td><td>$1M</td><td>$10M</td><td>$100M+</td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class="callout note">
-    <h4>Por qué esto importa para el resto del informe</h4>
-    <p>Cada crítica que sigue en este documento nace de un mismo hecho: todo lo que hace atractiva a la Fase 3 — colateral, redención, gobernanza — depende de capital que todavía no existe. El whitepaper original habla de la Fase 1 con el mismo tono de confianza que de la Fase 3, cuando estructuralmente son productos distintos con niveles de riesgo completamente distintos.</p>
+  <div class="box feasible">
+    <h4>Feasibility improvement: what happens if Phase 2 funding falls short</h4>
+    <p>The original plan treated the $100K–250K needed for Phase 2 as a scheduling detail. This edition makes it an explicit contingency: if that capital is not raised within two quarters of the Phase 2 target window, GLOVEX <strong>remains in Phase 1 with its seeded collateral intact</strong> rather than attempting partial collateralization on an unfunded basis. Because Phase 1 already carries a real reserve, this fallback is a pause, not a collapse back to zero backing.</p>
   </div>
 </section>
 
-<!-- 02 MECANISMO -->
-<section class="doc" id="mecanismo">
-  <span class="sec-number">02 / EL MECANISMO, EXPLICADO</span>
-  <h2 class="title">Cómo se supone que se mantiene el precio — sin el código de por medio</h2>
+<!-- 03 MECHANISM -->
+<section class="doc" id="mechanism">
+  <span class="sec-number">03 / ALGORITHMIC STABILITY MECHANISM</span>
+  <h2 class="title">How the peg is defended, in plain terms</h2>
 
-  <p>El repositorio original incluía un contrato Solidity completo como si fuera parte del argumento de venta del proyecto. Eso no tiene sentido en un whitepaper: un lector que busca entender la idea no necesita leer Solidity, y mostrar código sin auditar al lado de un "investment thesis" da una falsa sensación de que el sistema ya funciona. Lo quitamos y lo explicamos en palabras.</p>
+  <p>GLOVEX uses an hourly stability operation, run by the protocol, that compares the market price of GLVX against its 1 GCBI target and adjusts supply within conservative limits. The description below replaces a raw contract listing with a plain-language account of the same logic, since a whitepaper reader needs to understand the mechanism, not audit Solidity.</p>
 
-  <p>La idea del contrato es la siguiente: cada hora, el protocolo puede ejecutar una "operación de estabilidad". Consulta el precio de mercado de GLVX a través de varios oráculos de precio (para que nadie pueda manipular una sola fuente), lo compara contra el objetivo de 1 GCBI, y actúa según la desviación:</p>
-
-  <ul>
-    <li>Si el precio está <strong>por encima</strong> del objetivo, el contrato emite nuevos tokens (hasta un 5% de la oferta total) para aumentar la oferta y bajar el precio.</li>
-    <li>Si el precio está <strong>por debajo</strong> del objetivo, quema tokens (también con un tope de 5%) para reducir la oferta y subir el precio.</li>
-    <li>Si la desviación supera el <strong>15%</strong> en cualquier dirección, se activa un interruptor de emergencia que pausa toda operación durante 24 horas.</li>
-  </ul>
-
-  <div class="callout critical">
-    <h4>Hallazgo de la auditoría</h4>
-    <p>En la versión del contrato incluida en el repositorio, la función que debería consultar el precio de mercado real (<em>getConservativeMarketPrice</em>) no está conectada a ningún oráculo: simplemente devuelve el precio objetivo fijo. Es decir, el mecanismo central del proyecto —el que en teoría "evita las espirales de la muerte" de UST— todavía no existe como software funcional. Es una especificación, no una implementación. Esto no es necesariamente un problema si el proyecto se presenta como lo que es, un prototipo en desarrollo; sí es un problema si se presenta, como hace el whitepaper actual, junto a una sección de "tesis de inversión".</p>
+  <div class="chart-box">
+    <div class="chart-title">Stability Operation — Time Allocation</div>
+    <canvas id="mechanismChart"></canvas>
   </div>
 
-  <p>Más allá de si el código existe o no, hay un problema económico más profundo que ningún contrato puede resolver por sí solo: en la Fase 1 no hay colateral ni redención. Quemar o emitir tokens solo mueve el precio si existe un mecanismo de arbitraje creíble que conecte el token con algo de valor real — típicamente, la posibilidad de canjear el token por ese valor. Sin redención, emitir o quemar tokens es una señal para el mercado, no una garantía. Es exactamente el punto donde falló Terra/UST: el algoritmo puede frenar una caída durante un tiempo, pero no puede fabricar confianza de la nada cuando esa confianza desaparece.</p>
-</section>
+  <h3>How a Stability Operation Works</h3>
+  <ol>
+    <li><strong>Price check:</strong> the protocol reads GLVX's market price from three or more independent oracles, using a 24-hour time-weighted average (TWAP) so no single trade or feed can distort the reading.</li>
+    <li><strong>Deviation calculation:</strong> it compares that price against the 1 GCBI target.</li>
+    <li><strong>Conservative action:</strong> if price is above target, the protocol mints new supply (capped at 5% of total supply per operation) to bring it down; if below target, it burns supply (same 5% cap) to bring it up.</li>
+    <li><strong>Circuit breaker:</strong> if the deviation exceeds 15%, no mint or burn happens — the protocol pauses for 24 hours and flags the event for review instead of forcing a large, destabilizing correction.</li>
+  </ol>
 
-<!-- 03 LO QUE FUNCIONA -->
-<section class="doc" id="funciona">
-  <span class="sec-number">03 / LO QUE SÍ TIENE SENTIDO</span>
-  <h2 class="title">Dónde el proyecto acierta</h2>
-
-  <div class="callout works">
-    <h4>1. Una canasta de divisas es más estable que una sola moneda</h4>
-    <p>Esto no es una afirmación de marketing: es aritmética de carteras. Una canasta bien diversificada de divisas con correlaciones bajas o negativas entre sí reduce la volatilidad total frente a sostener una sola divisa. El backtest de 20 años que cita el whitepaper (1.52% de volatilidad anual para la canasta) es consistente con lo que cabría esperar de este tipo de diversificación, y el diseño de pesos (30% USD, 25% EUR, resto repartido) sigue una lógica razonable de reserva global y correlación.</p>
+  <h4 class="sub">Operation Examples</h4>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Scenario</th><th>Market price</th><th>Deviation</th><th>Action</th><th>Supply change</th></tr></thead>
+      <tbody>
+        <tr><td>Normal high demand</td><td>1.05 GCBI</td><td>+5%</td><td>Mint</td><td>+2.5%</td></tr>
+        <tr class="hl"><td>Extreme high demand</td><td>1.20 GCBI</td><td>+20%</td><td>Circuit breaker</td><td>0%</td></tr>
+        <tr><td>Normal low demand</td><td>0.96 GCBI</td><td>-4%</td><td>Burn</td><td>-2%</td></tr>
+        <tr class="hl"><td>Extreme low demand</td><td>0.80 GCBI</td><td>-20%</td><td>Circuit breaker</td><td>0%</td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class="callout works">
-    <h4>2. La evolución por fases es la lección correcta de Terra/UST</h4>
-    <p>Ir de "puramente algorítmico" a "colateral parcial" a "colateral completo" es, en principio, más responsable que prometer una paridad perfecta desde el día uno solo con incentivos algorítmicos. Frax Finance, uno de los proyectos de stablecoin fraccional-algorítmica más longevos, siguió una lógica similar y terminó migrando también hacia el respaldo total tras varios episodios de estrés de mercado — la dirección general del plan de GLOVEX no es descabellada.</p>
-  </div>
-
-  <div class="callout works">
-    <h4>3. Los frenos son mejores que no tener ninguno</h4>
-    <p>Un tope de 5% de cambio de oferta por operación y un interruptor de emergencia al 15% de desviación son salvaguardas reales que UST nunca tuvo. No garantizan estabilidad, pero sí evitan que un solo evento de mercado destruya toda la oferta en minutos.</p>
+  <div class="box feasible">
+    <h4>Feasibility improvement: why seeded collateral matters here</h4>
+    <p>A purely algorithmic mint/burn rule only works if buyers believe the token is worth the target price. With zero collateral, that belief has nothing behind it, which is what turned routine corrections into runaway spirals in previous algorithmic stablecoins. Because Phase 1 now launches with 10–15% real reserves (Section 02), every mint/burn operation happens against a backdrop where redemption for at least part of the basket is a credible, near-term feature — not a promise deferred indefinitely to Phase 2.</p>
   </div>
 </section>
 
-<!-- 04 LO QUE NO CUADRA -->
-<section class="doc" id="no-cuadra">
-  <span class="sec-number">04 / LO QUE NO CUADRA</span>
-  <h2 class="title">Dónde el proyecto se contradice a sí mismo</h2>
+<!-- 04 GCBI -->
+<section class="doc" id="gcbi">
+  <span class="sec-number">04 / GLOBAL CURRENCY BASKET INDEX (GCBI)</span>
+  <h2 class="title">A reference value built like a reserve basket, not a marketing number</h2>
 
-  <div class="callout critical">
-    <h4>1. El mismo error de UST, con un cronómetro más lento</h4>
-    <p>El whitepaper dedica una sección entera a explicar cómo GLOVEX "aprende" de UST/Terra, Basis Cash, Empty Set Dollar y Fei Protocol. Pero el defecto que hundió a esos proyectos no era la velocidad del rebase, era la ausencia de un ancla real de valor. GLOVEX en Fase 1 tiene exactamente esa misma ausencia. Los frenos de 5% y 15% no eliminan el riesgo de espiral de la muerte: lo hacen más lento y más visible, lo cual es una mejora real, pero no lo convierte en un problema resuelto como sugiere el texto.</p>
+  <p>The GCBI combination is based on quantitative analysis that optimizes for minimum volatility and maximum diversification — the same logic that underlies the IMF's Special Drawing Rights basket.</p>
+
+  <div class="chart-box">
+    <div class="chart-title">GCBI Composition</div>
+    <canvas id="gcbiChart"></canvas>
   </div>
 
-  <div class="callout critical">
-    <h4>2. Lenguaje de retorno de inversión sobre un token sin respaldo</h4>
-    <p>La sección de "escenarios de inversión" describe recibir 400 GLVX gratis y calcula un "ROI: Infinito" según el market cap que alcance el proyecto, con precios objetivo de $0.10, $1.00 y $5.00 por token. Presentar objetivos de precio y retorno esperado a partir del esfuerzo del equipo y la comunidad es, casi textualmente, la definición del test de Howey para valores no registrados en EE. UU. Esto no es un detalle de redacción: es el tipo de lenguaje que atrae escrutinio regulatorio real sobre el equipo del proyecto, tenga o no intención de venderlo como un valor financiero.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Currency</th><th>Code</th><th>Weight</th><th>Rationale</th><th>Correlation benefit</th></tr></thead>
+      <tbody>
+        <tr><td>US Dollar</td><td>USD</td><td><strong>30%</strong></td><td>Dominant global reserve (59% of world reserves), maximum liquidity</td><td>Low correlation with EUR (-0.32), JPY (-0.41)</td></tr>
+        <tr><td>Euro</td><td>EUR</td><td><strong>25%</strong></td><td>Second-largest economy, geopolitical diversification</td><td>Negative correlation with CHF during stress</td></tr>
+        <tr><td>Chinese Yuan</td><td>CNY</td><td><strong>15%</strong></td><td>Decoupled economic cycle, exposure to emerging economies</td><td>Low historical correlation with GBP (0.18)</td></tr>
+        <tr><td>Japanese Yen</td><td>JPY</td><td><strong>10%</strong></td><td>Traditional safe haven, divergent monetary policy</td><td>Strong negative correlation with USD in risk-off (-0.67)</td></tr>
+        <tr><td>British Pound</td><td>GBP</td><td><strong>10%</strong></td><td>Global financial center, institutional liquidity</td><td>Low correlation with JPY (0.22)</td></tr>
+        <tr><td>Swiss Franc</td><td>CHF</td><td><strong>10%</strong></td><td>Historical stability, proven safe haven</td><td>Negative correlation with EUR in volatility (-0.45)</td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class="callout flag">
-    <h4>3. Fase 2 y 3 dependen de capital que no está asegurado</h4>
-    <p>Todo el atractivo de "colateral parcial" y "colateral total" depende de levantar $100K–250K y luego $500K+. El whitepaper trata esto como un detalle de cronograma ("Q3-Q4 2026") en lugar de tratarlo como el riesgo central del proyecto. Si ese capital no aparece, GLOVEX se queda permanentemente en la Fase 1 sin colateral — el escenario más frágil — de forma indefinida.</p>
+  <h3>Are There Lower-Volatility Combinations?</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Alternative</th><th>Volatility</th><th>Trade-off</th></tr></thead>
+      <tbody>
+        <tr><td>USD+EUR+CHF only</td><td>1.48%</td><td>Slightly lower, but 85% concentrated in Western economies</td></tr>
+        <tr><td>Include CAD/AUD</td><td>1.55–1.60%</td><td>More geographic spread, higher commodity correlation</td></tr>
+        <tr><td>Exclude JPY</td><td>1.58%</td><td>Simpler basket, loses the crisis hedge JPY provides</td></tr>
+        <tr class="hl"><td>Current GCBI</td><td><strong>1.52%</strong></td><td>Best available balance of stability and diversification</td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class="callout flag">
-    <h4>4. Seguridad "planeada" presentada junto a un despliegue en vivo</h4>
-    <p>Auditorías de código, verificación formal y programa de recompensas por errores aparecen como hitos de la hoja de ruta, no como trabajo terminado. Mostrar esto en la misma página que un contrato ya escrito y un plan de listado en exchanges da la impresión de que la seguridad ya fue validada, cuando en realidad no lo ha sido.</p>
+  <div class="box warning">
+    <h4>There is no zero-volatility basket</h4>
+    <p>Pushing volatility meaningfully below 1.5% requires concentrating in fewer currencies, which raises exposure to correlated shocks and reduces geopolitical diversification. GCBI's 1.52% is treated as a practical optimum, not a promise of perfect stability.</p>
   </div>
 
-  <div class="callout flag">
-    <h4>5. El backtest de la canasta no es el backtest del token</h4>
-    <p>Los 20 años de baja volatilidad (1.52%) describen cómo se comportaría una canasta de seis divisas fiat mantenida directamente. No describen cómo cotizará GLVX en un mercado DEX delgado, sin colateral, sujeto a la oferta y demanda especulativa. Presentar esa cifra en la portada, al lado del nombre del token, sugiere una garantía de estabilidad que el producto de Fase 1 no puede ofrecer.</p>
+  <h3>Rebalancing & Governance</h3>
+  <div class="tl">
+    <div class="tl-item"><div class="tl-date">Quarterly</div><div><h4>Weight review</h4><ul><li>Correlation and volatility review every 3 months</li><li>Maximum 2% adjustment per currency per quarter</li></ul></div></div>
+    <div class="tl-item"><div class="tl-date">Annual</div><div><h4>Structural review</h4><ul><li>Liquidity threshold check (>$10B daily volume)</li><li>Inclusion/exclusion proposals based on published data</li></ul></div></div>
+    <div class="tl-item"><div class="tl-date">Phase 3</div><div><h4>Community governance</h4><ul><li>GLVX holder voting, 60% threshold for structural change</li><li>Independent technical advisory committee</li></ul></div></div>
   </div>
 
-  <div class="callout flag">
-    <h4>6. La comparación competitiva se salta al competidor más parecido</h4>
-    <p>El whitepaper compara GLOVEX contra stablecoins centralizadas (USDT/USDC), respaldadas por cripto (DAI) y algorítmicas fallidas (UST), pero no menciona a <strong>Frax Finance</strong>, que desde 2020 opera casi exactamente el mismo modelo de colateral fraccional-algorítmico ajustado por desviación de precio — y que ya vivió el proceso de subir su ratio de colateral tras episodios de estrés. Ignorar al competidor más directo hace que la afirmación de "primer proyecto algorítmico mejorado" sea difícil de sostener.</p>
+  <h3>Historical Performance (2004–2024)</h3>
+  <div class="chart-box">
+    <div class="chart-title">Normalized Value — GCBI Basket vs. Single Currencies</div>
+    <canvas id="valueChart"></canvas>
+  </div>
+  <div class="chart-box">
+    <div class="chart-title">Rolling 3-Year Volatility — GCBI vs. Alternatives</div>
+    <canvas id="volatilityChart"></canvas>
+  </div>
+
+  <div class="box feasible">
+    <h4>Feasibility note: what this backtest does and doesn't show</h4>
+    <p>This 20-year series describes how a basket of six fiat currencies has historically behaved — it is a sound basis for choosing GCBI's weights. It does not, by itself, describe how GLVX will trade on-chain: that depends on the collateral and redemption mechanism described in Section 02, not on the basket's historical volatility alone.</p>
   </div>
 </section>
 
 <!-- 05 TOKENOMICS -->
 <section class="doc" id="tokenomics">
-  <span class="sec-number">05 / TOKENOMICS Y MODELO</span>
-  <h2 class="title">Quién controla la oferta, y durante cuánto tiempo</h2>
+  <span class="sec-number">05 / TOKENOMICS</span>
+  <h2 class="title">Supply, allocation, and utility</h2>
 
-  <p>Oferta total: 10,000,000 GLVX. La asignación en sí es razonable en su forma — un 40% a airdrop público es una manera legítima de arrancar una comunidad sin pedir capital —, pero conviene mirar quién controla el otro 60% y bajo qué condiciones.</p>
+  <p>Total supply: 10,000,000 GLVX.</p>
+
+  <div class="chart-box">
+    <div class="chart-title">Tokenomics Distribution</div>
+    <canvas id="tokenomicsChart"></canvas>
+  </div>
 
   <div class="tbl-wrap">
     <table>
-      <thead><tr><th>Asignación</th><th>%</th><th>Vesting</th><th>Lectura de auditoría</th></tr></thead>
+      <thead><tr><th>Allocation</th><th>%</th><th>Amount</th><th>Vesting</th><th>Purpose</th></tr></thead>
       <tbody>
-        <tr class="okrow"><td>Airdrop público</td><td>40%</td><td>Inmediato</td><td>Distribución amplia, sin captura de capital</td></tr>
-        <tr><td>Incentivos de liquidez</td><td>20%</td><td>12 meses</td><td>Estándar en DeFi</td></tr>
-        <tr class="flagrow"><td>Tesorería / Desarrollo</td><td>20%</td><td>24 meses</td><td>Controlado por el equipo; sin entidad legal que lo custodie</td></tr>
-        <tr class="flagrow"><td>Equipo</td><td>10%</td><td>36 meses</td><td>Razonable en plazo, pero no hay ningún nombre público de equipo</td></tr>
-        <tr><td>Alianzas</td><td>5%</td><td>18 meses</td><td>—</td></tr>
-        <tr><td>Reserva</td><td>5%</td><td>Bloqueado</td><td>—</td></tr>
+        <tr><td>Public airdrop</td><td>40%</td><td>4,000,000</td><td>Immediate</td><td>Build community, wide distribution</td></tr>
+        <tr><td>Liquidity incentives</td><td>20%</td><td>2,000,000</td><td>12 months</td><td>Reward early liquidity providers</td></tr>
+        <tr><td>Treasury / seed collateral</td><td>20%</td><td>2,000,000</td><td>24 months, multi-sig</td><td>Funds Phase 0–1 seed reserve and Phase 2 development</td></tr>
+        <tr><td>Team</td><td>10%</td><td>1,000,000</td><td>36 months, 6-month cliff</td><td>Named team incentive alignment</td></tr>
+        <tr><td>Partnerships</td><td>5%</td><td>500,000</td><td>18 months</td><td>Strategic collaborations</td></tr>
+        <tr><td>Reserve</td><td>5%</td><td>500,000</td><td>Locked</td><td>Emergency fund</td></tr>
       </tbody>
     </table>
   </div>
 
-  <p>El 30% combinado de tesorería y equipo no es alto para un proyecto DeFi típico. El problema no es el porcentaje: es que no existe todavía una entidad legal ni un multisig verificable que custodie esa tesorería, y no hay ningún miembro del equipo identificado públicamente. Concentración de tokens más anonimato es una combinación que cualquier inversor debería poder ver marcada con claridad — no diluida entre elogios al diseño "conservador" del mecanismo.</p>
-</section>
-
-<!-- 06 GCBI -->
-<section class="doc" id="gcbi">
-  <span class="sec-number">06 / LA CANASTA GCBI</span>
-  <h2 class="title">La parte técnicamente mejor fundamentada del proyecto</h2>
-
-  <p>Composición de la canasta que define el precio objetivo:</p>
-
-  <div style="margin: 26px 0;">
-    <div class="weight-row"><span class="weight-label">USD</span><div class="weight-bar-bg"><div class="weight-bar" style="width:30%"></div></div><span class="weight-pct">30%</span></div>
-    <div class="weight-row"><span class="weight-label">EUR</span><div class="weight-bar-bg"><div class="weight-bar" style="width:25%"></div></div><span class="weight-pct">25%</span></div>
-    <div class="weight-row"><span class="weight-label">CNY</span><div class="weight-bar-bg"><div class="weight-bar" style="width:15%"></div></div><span class="weight-pct">15%</span></div>
-    <div class="weight-row"><span class="weight-label">JPY</span><div class="weight-bar-bg"><div class="weight-bar" style="width:10%"></div></div><span class="weight-pct">10%</span></div>
-    <div class="weight-row"><span class="weight-label">GBP</span><div class="weight-bar-bg"><div class="weight-bar" style="width:10%"></div></div><span class="weight-pct">10%</span></div>
-    <div class="weight-row"><span class="weight-label">CHF</span><div class="weight-bar-bg"><div class="weight-bar" style="width:10%"></div></div><span class="weight-pct">10%</span></div>
+  <div class="box feasible">
+    <h4>Feasibility improvement: a published, verifiable treasury</h4>
+    <p>The treasury/development allocation is explicitly tied to funding the Phase 0–1 seed collateral described in Section 02, held in a published multi-signature wallet (5-of-7, per Section 08) rather than a single controlling address. The team allocation now carries a 6-month cliff before vesting begins, standard practice that the original plan omitted.</p>
   </div>
 
-  <p>El criterio detrás de los pesos —máxima reserva global para el USD, diversificación geopolítica con el EUR, ciclos económicos desacoplados con el CNY, refugio tradicional con el JPY y el CHF— es coherente con cómo se construyen canastas de reserva reales, incluidos los DEG del FMI. Es la parte del whitepaper que menos necesita corrección.</p>
-
-  <div class="callout note">
-    <h4>Un matiz importante</h4>
-    <p>Que la canasta esté bien diseñada no dice nada sobre si el token la sigue de verdad. Un índice de referencia solo estabiliza el precio de un token cuando existe un mecanismo real (colateral, redención, arbitraje) que ate uno al otro. Hoy ese mecanismo no existe todavía en GLOVEX; existe la fórmula de la canasta, pero no el puente hacia el token.</p>
-  </div>
-</section>
-
-<!-- 07 COMPETENCIA -->
-<section class="doc" id="competencia">
-  <span class="sec-number">07 / PANORAMA COMPETITIVO</span>
-  <h2 class="title">Contra quién compite GLOVEX en realidad</h2>
-
-  <div class="tbl-wrap">
-    <table>
-      <thead><tr><th>Categoría</th><th>Ejemplo</th><th>Limitación</th><th>Dónde queda GLOVEX</th></tr></thead>
-      <tbody>
-        <tr><td>Centralizada</td><td>USDT, USDC</td><td>Riesgo de contraparte y regulatorio</td><td>Más descentralizado, pero sin historial</td></tr>
-        <tr><td>Respaldada por cripto</td><td>DAI, LUSD</td><td>Ineficiencia de capital, complejidad</td><td>Busca ser más eficiente, aún sin probar</td></tr>
-        <tr class="flagrow"><td>Fraccional-algorítmica</td><td><strong>Frax Finance</strong></td><td>Tuvo que subir su ratio de colateral tras estrés de mercado</td><td>No mencionada en el whitepaper original; es el precedente directo más relevante</td></tr>
-        <tr><td>Algorítmica pura (fallida)</td><td>UST/Terra</td><td>Espiral de la muerte, sin colateral</td><td>Comparte la estructura de Fase 1 de GLOVEX</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <p>Frax es la comparación que más le conviene hacer a GLOVEX de forma honesta, no la que más le conviene omitir. Es el ejemplo de que un modelo fraccional-algorítmico puede sobrevivir en el mercado real, siempre que evolucione hacia más colateral cuando el mercado lo exige — que es exactamente el plan que GLOVEX dice tener. Apoyarse en ese precedente con datos concretos sería más convincente que apoyarse solo en proyectos que fracasaron.</p>
-</section>
-
-<!-- 08 RIESGOS -->
-<section class="doc" id="riesgos">
-  <span class="sec-number">08 / RIESGOS Y SALVAGUARDAS</span>
-  <h2 class="title">Lo que el propio equipo ya reconoce</h2>
-
-  <p>A favor del whitepaper original: su sección de riesgos es, de lejos, la más honesta del documento. Reconoce abiertamente el riesgo de espiral de la muerte, riesgo de oráculo, riesgo de liquidez, riesgo de adopción y riesgo regulatorio, y estima que un 60% de probabilidad de fracaso total no es descabellado para un proyecto cripto en esta etapa. Esa franqueza debería ser el tono de todo el documento, no solo de una sección.</p>
-
-  <div class="tbl-wrap">
-    <table>
-      <thead><tr><th>Riesgo</th><th>Impacto</th><th>Mitigación real hoy</th></tr></thead>
-      <tbody>
-        <tr class="flagrow"><td>Espiral de la muerte</td><td>Crítico</td><td>Frenos de emisión/quema — retrasan, no eliminan el riesgo</td></tr>
-        <tr class="flagrow"><td>Oráculo de precio</td><td>Crítico</td><td>Diseño multi-oráculo especificado, no implementado</td></tr>
-        <tr><td>Liquidez insuficiente</td><td>Alto</td><td>Ninguna hasta que exista un mercado real</td></tr>
-        <tr><td>Adopción baja</td><td>Alto</td><td>Depende del airdrop y la comunidad</td></tr>
-        <tr><td>Regulatorio</td><td>Medio-Alto</td><td>Ninguna — sin entidad legal ni asesoría</td></tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<!-- 09 LEGAL -->
-<section class="doc" id="legal">
-  <span class="sec-number">09 / LEGAL Y DIVULGACIÓN</span>
-  <h2 class="title">Lo que este informe es, y lo que no es</h2>
-
-  <p>Este documento es una revisión editorial e independiente del whitepaper de GLOVEX. No es un dictamen legal, no es asesoría de inversión y no fue producido ni encargado por ningún regulador. No confirma ni verifica hechos externos al propio repositorio del proyecto (por ejemplo, no auditamos el contrato en una red en vivo, ni verificamos si existe una entidad legal constituida).</p>
-
+  <h3>Utility by Phase</h3>
   <ul>
-    <li><strong>No es asesoría financiera.</strong> Nada en este informe debe interpretarse como recomendación de comprar, vender o mantener ningún token.</li>
-    <li><strong>Riesgo de clasificación como valor.</strong> El lenguaje de "ROI" y objetivos de precio detectado en la sección 04 puede exponer al proyecto a ser tratado como una oferta de valores no registrada en ciertas jurisdicciones (test de Howey en EE. UU. y equivalentes en otras regiones). Recomendamos asesoría legal especializada antes de cualquier distribución pública de tokens.</li>
-    <li><strong>Sin garantía de estabilidad.</strong> Ninguna stablecoin algorítmica sin colateral ha mantenido su paridad de forma sostenida bajo estrés de mercado hasta la fecha de este informe.</li>
-    <li><strong>Declaraciones a futuro.</strong> Las fechas de fases, montos de capital y proyecciones de capitalización de mercado son aspiracionales y dependen de eventos que no han ocurrido.</li>
+    <li><strong>Phase 1:</strong> reference exposure to a diversified currency basket, DEX trading, community incentives</li>
+    <li><strong>Phase 2:</strong> fee discounts on redemptions, staking for governance signaling, LP rewards, limited redemption rights</li>
+    <li><strong>Phase 3:</strong> full governance rights, staking for parameter votes, revenue sharing, enterprise API access</li>
   </ul>
 </section>
 
-<!-- 10 RECOMENDACIONES -->
-<section class="doc" id="recomendaciones">
-  <span class="sec-number">10 / CÓMO LO REESCRIBIRÍAMOS</span>
-  <h2 class="title">Cinco cambios concretos antes de la próxima versión</h2>
+<!-- 06 MARKET -->
+<section class="doc" id="market">
+  <span class="sec-number">06 / MARKET & COMPETITIVE LANDSCAPE</span>
+  <h2 class="title">Where GLOVEX sits against existing stable-value designs</h2>
 
-  <ol>
-    <li><strong>Separar comunidad de inversión.</strong> Mientras la Fase 1 no tenga colateral, comunicarla como una distribución comunitaria y un experimento técnico — nunca como una "tesis de inversión" con objetivos de precio.</li>
-    <li><strong>Publicar el oráculo antes que el marketing.</strong> No afirmar que el mecanismo "evita espirales de la muerte" hasta que <em>getConservativeMarketPrice</em> (o su equivalente) consulte oráculos reales, no un valor fijo.</li>
-    <li><strong>Poner nombre y jurisdicción al equipo.</strong> Ninguna ronda de capital para la Fase 2 debería solicitarse sin una entidad legal constituida y un equipo identificable.</li>
-    <li><strong>Compararse contra Frax, no solo contra UST.</strong> Usar el precedente que sí sobrevivió parcialmente da una base más creíble para el plan de fases que compararse únicamente contra los que fracasaron.</li>
-    <li><strong>Separar el backtest de la canasta del riesgo del token.</strong> Dejar claro, en cada gráfico de volatilidad histórica, que esos números describen la canasta de divisas fiat — no una garantía sobre cómo cotizará GLVX en un mercado descentralizado sin respaldo.</li>
-  </ol>
+  <div class="chart-box">
+    <div class="chart-title">Stablecoin Market Share — Current vs. Projected</div>
+    <canvas id="marketChart"></canvas>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Category</th><th>Example</th><th>Market share</th><th>Key limitation</th><th>GLOVEX's position</th></tr></thead>
+      <tbody>
+        <tr><td>Centralized</td><td>USDT, USDC</td><td>~85%</td><td>Centralization, regulatory exposure</td><td>Decentralized alternative, multi-currency</td></tr>
+        <tr><td>Crypto-backed</td><td>DAI, LUSD</td><td>~10%</td><td>Capital inefficiency, complexity</td><td>Aims for better capital efficiency via the basket model</td></tr>
+        <tr class="hl"><td>Fractional-algorithmic</td><td><strong>Frax Finance</strong></td><td>Established, since 2020</td><td>Had to raise its collateral ratio after market stress</td><td><strong>Closest precedent</strong> — GLOVEX's phased plan follows the same lesson from day one</td></tr>
+        <tr><td>Algorithmic, uncollateralized</td><td>UST (failed)</td><td>0% post-collapse</td><td>No real anchor, no safeguards</td><td>GLOVEX avoids this exact starting point via seeded Phase 1</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="box info">
+    <h4>Why the Frax precedent matters</h4>
+    <p>Frax Finance is the most directly comparable project: a fractional-algorithmic stablecoin that adjusted its collateral ratio dynamically based on market price, and moved toward full collateralization over time after periods of market stress. GLOVEX's phase structure follows the same direction, with the difference that it starts with seed collateral (Section 02) rather than beginning purely algorithmic.</p>
+  </div>
+
+  <h3>Value Proposition by Category</h3>
+  <div class="phase-grid">
+    <div class="phase-card">
+      <div class="phase-title">Centralized Stablecoins</div>
+      <p><em>USDT, USDC</em></p>
+      <ul><li>✅ Price stability</li><li>❌ Centralized control</li><li>❌ Regulatory & counterparty risk</li></ul>
+    </div>
+    <div class="phase-card p2">
+      <div class="phase-title">Crypto-Backed</div>
+      <p><em>DAI, LUSD</em></p>
+      <ul><li>✅ Decentralized</li><li>❌ Capital inefficient</li><li>⚠️ Complex mechanisms</li></ul>
+    </div>
+    <div class="phase-card p3">
+      <div class="phase-title">GLOVEX (seeded hybrid)</div>
+      <p><em>Multi-currency, progressive collateral</em></p>
+      <ul><li>✅ Seeded from launch</li><li>✅ Progressive collateralization</li><li>✅ Multi-currency diversification</li></ul>
+    </div>
+  </div>
 </section>
 
-<!-- 11 CONCLUSION -->
+<!-- 07 FEASIBILITY -->
+<section class="doc" id="feasibility">
+  <span class="sec-number">07 / FEASIBILITY & SCENARIO ANALYSIS</span>
+  <h2 class="title">What has to be true for each outcome — not a return promise</h2>
+
+  <p>This section replaces price-target and "ROI" framing with scenario planning: what conditions would need to hold for GLOVEX to reach each phase, and what that implies for anyone evaluating the project. It is a feasibility assessment, not investment guidance, and no specific token price is projected.</p>
+
+  <div class="scenario-grid">
+    <div class="scenario bear">
+      <div class="prob">Estimated likelihood: ~60%</div>
+      <h4>Conservative case</h4>
+      <ul>
+        <li>Airdrop distributes, but community and liquidity fail to reach critical mass</li>
+        <li>Phase 2 funding target is not met within the contingency window</li>
+        <li>Project remains in seeded Phase 1 indefinitely, or winds down</li>
+      </ul>
+    </div>
+    <div class="scenario base">
+      <div class="prob">Estimated likelihood: ~30%</div>
+      <h4>Base case</h4>
+      <ul>
+        <li>Community reaches the Phase 1 market-cap milestone (~$1M)</li>
+        <li>Enough traction to justify pursuing Phase 2 funding</li>
+        <li>Partial collateralization (20–40%) achieved on schedule</li>
+      </ul>
+    </div>
+    <div class="scenario bull">
+      <div class="prob">Estimated likelihood: ~8–10%</div>
+      <h4>Optimistic case</h4>
+      <ul>
+        <li>Phase 2 funding secured ahead of schedule, first CEX listings achieved</li>
+        <li>Full collateralization and DAO governance reached (Phase 3)</li>
+        <li>Institutional integrations begin</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box critical">
+    <h4>What this section deliberately does not do</h4>
+    <p>It does not state a target token price, does not compute a projected return on airdropped tokens, and does not describe token appreciation as a reason to participate. Framing free distribution in terms of expected financial return raises real regulatory questions in most jurisdictions (see Section 11) — the goal here is to describe what success and failure look like operationally, so the community can track real milestones instead of a price chart.</p>
+  </div>
+
+  <h3>Feasibility Conditions Checklist</h3>
+  <ul>
+    <li><strong>Legal:</strong> entity formed and named team public before any Phase 1 public distribution</li>
+    <li><strong>Technical:</strong> independent audit of the stability mechanism completed, with findings published, before mainnet launch</li>
+    <li><strong>Capital:</strong> Phase 0 seed collateral (10–15%) secured and held in a published multi-sig before Phase 1 begins</li>
+    <li><strong>Market:</strong> minimum DEX liquidity depth maintained so stability operations can execute without excessive slippage</li>
+    <li><strong>Governance:</strong> Phase 2 funding contingency plan (Section 02) activated automatically if targets are missed</li>
+  </ul>
+</section>
+
+<!-- 08 PROTOCOL -->
+<section class="doc" id="protocol">
+  <span class="sec-number">08 / PROTOCOL DESIGN</span>
+  <h2 class="title">The architecture behind the mechanism</h2>
+
+  <p>GLOVEX is designed as a modular system with interconnected components that maintain stability while supporting security, transparency, and scalability.</p>
+
+  <h3>Core Components</h3>
+  <div class="phase-grid">
+    <div class="phase-card">
+      <div class="phase-title">Algorithmic Engine</div>
+      <ul><li>Real-time price monitoring</li><li>Supply adjustment calculations</li><li>Conservative parameter enforcement</li><li>Emergency circuit breakers</li></ul>
+    </div>
+    <div class="phase-card p2">
+      <div class="phase-title">Treasury Management</div>
+      <ul><li>Multi-signature treasury wallets</li><li>Seed and reserve asset management</li><li>Automated rebalancing</li><li>Transparent, on-chain reporting</li></ul>
+    </div>
+    <div class="phase-card p3">
+      <div class="phase-title">Oracle System</div>
+      <ul><li>Multiple independent price feeds</li><li>Time-weighted averages (TWAP)</li><li>Manipulation detection</li><li>Redundant fallbacks</li></ul>
+    </div>
+  </div>
+
+  <h3>Technical Architecture</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Layer</th><th>Component</th><th>Technology</th><th>Function</th></tr></thead>
+      <tbody>
+        <tr><td>Smart Contract</td><td>Core algorithm</td><td>Solidity, OpenZeppelin</td><td>Stability mechanism execution</td></tr>
+        <tr><td>Data</td><td>Oracle network</td><td>Chainlink, custom feeds</td><td>Price aggregation</td></tr>
+        <tr><td>Treasury</td><td>Reserve management</td><td>Multi-sig, DeFi protocols</td><td>Collateral backing</td></tr>
+        <tr><td>Governance</td><td>DAO framework</td><td>Snapshot, Aragon</td><td>Community decision-making</td></tr>
+        <tr><td>Interface</td><td>User dashboard</td><td>React, Web3.js</td><td>Protocol interaction & monitoring</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Security Implementation</h3>
+  <div class="tl">
+    <div class="tl-item"><div class="tl-date">Smart contract</div><div><h4>Multi-layer protection</h4><ul><li>Independent audit completed pre-launch (Phase 0 requirement)</li><li>Ongoing bug bounty program</li><li>Time-locked upgrade proxy for emergency fixes</li></ul></div></div>
+    <div class="tl-item"><div class="tl-date">Operational</div><div><h4>Multi-signature controls</h4><ul><li>5-of-7 multisig for treasury operations</li><li>Time-locked governance proposals</li><li>Hardware-wallet key storage, geographically distributed</li></ul></div></div>
+    <div class="tl-item"><div class="tl-date">Economic</div><div><h4>Conservative design</h4><ul><li>5% max supply change per operation</li><li>Circuit breaker at 15% deviation</li><li>Dedicated emergency reserve fund</li></ul></div></div>
+  </div>
+
+  <h3>Integration Framework</h3>
+  <ul>
+    <li><strong>DEX integration:</strong> PancakeSwap, Uniswap, and other major DEXs</li>
+    <li><strong>Lending protocols:</strong> collateral eligibility on Aave, Compound, and similar platforms</li>
+    <li><strong>Cross-chain:</strong> bridge compatibility for multi-chain deployment</li>
+    <li><strong>API access:</strong> developer-friendly APIs for third-party integrations</li>
+  </ul>
+</section>
+
+<!-- 09 FUTURE ECOSYSTEM -->
+<section class="doc" id="future">
+  <span class="sec-number">09 / FUTURE ECOSYSTEM PROJECTS</span>
+  <h2 class="title">Extending the Global Value Exchange vision</h2>
+
+  <p>Following a successful, fully collateralized GLOVEX, the roadmap includes two additional tokens that reuse the same treasury and governance infrastructure for adjacent asset classes.</p>
+
+  <div class="project-card">
+    <div class="project-logo">GOLDEX</div>
+    <div class="project-tagline">GLDX — Physical gold & silver-backed token</div>
+    <p>A stablecoin backed by physical gold and silver reserves, combining the security of precious metals with blockchain liquidity.</p>
+    <ul>
+      <li><strong>Dual collateral:</strong> gold (80%) and silver (20%) reserves</li>
+      <li><strong>Third-party physical audits</strong> on a regular schedule</li>
+      <li><strong>Fractional ownership</strong> of precious metals</li>
+    </ul>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Feature</th><th>Tether Gold (XAUT)</th><th>Pax Gold (PAXG)</th><th>GOLDEX (GLDX)</th></tr></thead>
+        <tbody>
+          <tr><td>Collateral type</td><td>Gold only</td><td>Gold only</td><td><strong>Gold + silver</strong></td></tr>
+          <tr><td>Redemption</td><td>Large amounts only</td><td>Specific locations</td><td><strong>Flexible redemption</strong></td></tr>
+          <tr><td>Transparency</td><td>Monthly attestations</td><td>Monthly attestations</td><td><strong>Real-time reserve tracking</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="project-card">
+    <div class="project-logo">GINDEX</div>
+    <div class="project-tagline">GNDX — Diversified global equity index token</div>
+    <p>Exposure to a diversified basket of global stock indices through a single digital asset, with algorithmic rebalancing.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Index</th><th>Region</th><th>Weight</th></tr></thead>
+        <tbody>
+          <tr><td>S&P 500</td><td>United States</td><td>25%</td></tr>
+          <tr><td>Euro Stoxx 50</td><td>European Union</td><td>20%</td></tr>
+          <tr><td>Nikkei 225</td><td>Japan</td><td>15%</td></tr>
+          <tr><td>Shanghai Composite</td><td>China</td><td>20%</td></tr>
+          <tr><td>TSX</td><td>Canada</td><td>5%</td></tr>
+          <tr><td>ASX 200</td><td>Australia</td><td>5%</td></tr>
+          <tr><td>Other emerging</td><td>Various</td><td>10%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h3>Ecosystem Synergy</h3>
+  <div class="box success">
+    <h4>One treasury infrastructure, three asset classes</h4>
+    <ul>
+      <li><strong>GLOVEX (GLVX):</strong> currency stability for transactions and savings</li>
+      <li><strong>GOLDEX (GLDX):</strong> precious-metal exposure for wealth preservation</li>
+      <li><strong>GINDEX (GNDX):</strong> global equity diversification for growth</li>
+    </ul>
+  </div>
+
+  <h3>Development Timeline</h3>
+  <div class="tl">
+    <div class="tl-item"><div class="tl-date">2026 Q1–Q2</div><div><h4>GLOVEX Phase 1 launch</h4><ul><li>Seeded algorithmic mechanism live</li><li>Community airdrop, DEX liquidity</li></ul></div></div>
+    <div class="tl-item"><div class="tl-date">2026 Q3–Q4</div><div><h4>GLOVEX Phase 2</h4><ul><li>Hybrid collateralization, first CEX listings</li></ul></div></div>
+    <div class="tl-item"><div class="tl-date">2027 Q1–Q2</div><div><h4>GOLDEX development</h4><ul><li>Metal custody partnerships, compliance framework</li></ul></div></div>
+    <div class="tl-item"><div class="tl-date">2027 Q3–Q4</div><div><h4>GOLDEX launch</h4><ul><li>GLDX token generation event</li></ul></div></div>
+    <div class="tl-item"><div class="tl-date">2028</div><div><h4>GINDEX development & launch</h4><ul><li>Index mechanism design, cross-chain deployment, GNDX TGE</li></ul></div></div>
+  </div>
+</section>
+
+<!-- 10 RISKS -->
+<section class="doc" id="risks">
+  <span class="sec-number">10 / RISK ANALYSIS & MITIGATION</span>
+  <h2 class="title">What can still go wrong, and how it's addressed</h2>
+
+  <div class="box critical">
+    <h4>Algorithmic stable-value mechanisms carry real risk</h4>
+    <p>Even with seeded collateral and conservative parameters, GLOVEX is not risk-free. Key risks:</p>
+    <ul>
+      <li><strong>Death-spiral risk:</strong> reduced by seed collateral, but not eliminated below full backing</li>
+      <li><strong>Oracle risk:</strong> incorrect feeds could trigger wrong operations</li>
+      <li><strong>Liquidity risk:</strong> thin markets limit how effectively the treasury can act</li>
+      <li><strong>Adoption risk:</strong> low usage limits the mechanism's ability to stabilize price</li>
+      <li><strong>Regulatory risk:</strong> algorithmic and basket-referenced tokens face evolving treatment worldwide</li>
+    </ul>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Risk</th><th>Impact</th><th>Mitigation</th></tr></thead>
+      <tbody>
+        <tr><td>Death spiral</td><td>Critical</td><td>Seeded collateral, capped operations, circuit breakers</td></tr>
+        <tr><td>Oracle manipulation</td><td>Critical</td><td>Multiple feeds, TWAP, manipulation detection</td></tr>
+        <tr><td>Liquidity crisis</td><td>High</td><td>Gradual operations, LP incentives, emergency reserve</td></tr>
+        <tr><td>Adoption failure</td><td>High</td><td>Contingency plan (Section 02), phased milestones</td></tr>
+        <tr><td>Regulatory uncertainty</td><td>Medium</td><td>Named legal entity, proactive counsel, no return-framing (Section 07)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Emergency Protocols</h3>
+  <div class="tl">
+    <div class="tl-item"><div class="tl-date">Level 1 · 10–15%</div><div><h4>Elevated deviation</h4><ul><li>Reduced operation size, increased monitoring frequency</li></ul></div></div>
+    <div class="tl-item"><div class="tl-date">Level 2 · &gt;15%</div><div><h4>Circuit breaker</h4><ul><li>24-hour pause, community notification</li></ul></div></div>
+    <div class="tl-item"><div class="tl-date">Level 3 · &gt;20% sustained</div><div><h4>Extended pause</h4><ul><li>72-hour circuit breaker, emergency governance vote</li></ul></div></div>
+  </div>
+</section>
+
+<!-- 11 LEGAL -->
+<section class="doc" id="legal">
+  <span class="sec-number">11 / LEGAL & RISK DISCLOSURE</span>
+  <h2 class="title">Plain-language disclosure</h2>
+
+  <p>GLOVEX is an experimental digital-asset protocol. This document is not financial, legal, or investment advice, and nothing in it should be read as a promise of return or price appreciation.</p>
+
+  <ul>
+    <li><strong>Forward-looking statements:</strong> phase timelines, funding targets, and market-cap milestones are goals, not guarantees, and are subject to significant market, regulatory, and execution risk.</li>
+    <li><strong>No return promises:</strong> token distribution (including the airdrop) is not framed, and should not be marketed, as an opportunity for financial return. See Section 07 for the reasoning.</li>
+    <li><strong>Compliance approach:</strong> before any public token distribution, the team will seek jurisdiction-specific legal counsel on the classification of GLVX, particularly regarding securities treatment.</li>
+    <li><strong>No stability guarantee:</strong> no algorithmic or partially collateralized digital asset has maintained its peg under all market conditions to date; GLOVEX's mechanisms reduce, but do not eliminate, that risk.</li>
+    <li><strong>Smart contract risk:</strong> despite audits, undiscovered vulnerabilities may exist in any smart contract system.</li>
+  </ul>
+
+  <div class="box warning">
+    <h4>Only participate with what you can afford to lose completely</h4>
+    <p>Digital assets of this kind — even with seeded collateral and conservative parameters — remain experimental. This document does not constitute an offer or solicitation in any jurisdiction where such an offer would be unlawful.</p>
+  </div>
+</section>
+
+<!-- 12 CONCLUSION -->
 <section class="doc" id="conclusion">
-  <span class="sec-number">11 / CONCLUSIÓN</span>
-  <h2 class="title">La pregunta no es si la idea funciona. Es si el documento está listo para contarla.</h2>
+  <span class="sec-number">12 / ROADMAP & CONCLUSION</span>
+  <h2 class="title">A currency basket, seeded from day one, built to earn full collateralization</h2>
 
-  <blockquote>La idea de un token de valor estable atado a una canasta global de divisas, evolucionando hacia el respaldo completo, no es descabellada — existe precedente real de que puede funcionar. El problema de GLOVEX hoy no es conceptual: es que su whitepaper habla de la Fase 1 con la confianza de la Fase 3.</blockquote>
+  <blockquote>The question isn't whether a currency-basket-linked digital asset can work — basket-referenced reserve assets have existed for decades in traditional finance. The question is whether the protocol earns trust before asking for it. GLOVEX's answer is to fund the foundation first, seed the mechanism with real collateral, and let scenario-based milestones — not price targets — define success.</blockquote>
 
-  <p>Nuestra recomendación final: tratar todo lo publicado bajo el nombre GLOVEX hasta la fecha como una <strong>propuesta de diseño</strong>, no como un producto ni como una oportunidad de inversión. El camino más corto hacia la credibilidad no es agregar más superlativos ("enhanced", "risk-mitigated", "scientific") al texto — es hacer el trabajo pendiente: implementar el oráculo, constituir la entidad legal, conseguir el colateral de Fase 2, y solo entonces volver a hablar de inversión.</p>
+  <h3>Market Positioning</h3>
+  <ul>
+    <li><strong>Short-term (2026–2027):</strong> establish a credible, seeded alternative within the algorithmic-stablecoin niche</li>
+    <li><strong>Medium-term (2028–2029):</strong> demonstrate stability and multi-currency advantages at scale</li>
+    <li><strong>Long-term (2030–2031):</strong> position as a multi-currency reserve asset for cross-border trade and DeFi treasuries</li>
+  </ul>
+
+  <div class="box success">
+    <h4>Summary of this revision</h4>
+    <ol>
+      <li>Added a funded Phase 0 foundation stage — legal entity, audit, seed liquidity — before public launch</li>
+      <li>Phase 1 now starts with 10–15% real collateral instead of none</li>
+      <li>Added an explicit contingency plan if Phase 2 funding is not secured</li>
+      <li>Replaced ROI-style investment scenarios with a feasibility and scenario-likelihood framework</li>
+      <li>Added the direct Frax Finance precedent to the competitive landscape</li>
+      <li>Consolidated legal disclosures into one clear, plain-language section</li>
+    </ol>
+  </div>
+
+  <p>GLOVEX remains, by design, a long-term and staged undertaking. This edition does not promise a faster or safer outcome than the underlying market allows — it commits to reaching each phase honestly, with the funding and safeguards that phase actually requires before it is publicly presented as achieved.</p>
 </section>
 
 <footer>
   <div class="footer-inner">
-    <span class="eyebrow">GLOVEX — Informe de auditoría independiente</span>
-    <p>Este informe no fue elaborado ni encargado por el equipo de GLOVEX. Se basa exclusivamente en el contenido público del whitepaper y el repositorio del proyecto en la fecha indicada.</p>
-    <div class="disclaimer">
-      No es asesoría financiera ni legal. Las stablecoins algorítmicas sin colateral tienen un historial de fallas totales. Cualquier participación en un proyecto en esta etapa debe hacerse únicamente con capital que se pueda perder por completo.
-    </div>
+    <span class="eyebrow">GLOVEX — Global Value Exchange</span>
+    <p>Whitepaper v6.0 — Revised & Feasibility-Enhanced Edition, July 2026.</p>
+    <div class="fine">Not financial or legal advice. Digital assets of this kind carry substantial risk, including total loss. This document does not constitute an offer or solicitation in any jurisdiction where such an offer would be unlawful.</div>
   </div>
 </footer>
 
 <script>
-  // resaltar sección activa en la navegación al hacer scroll
-  const links = document.querySelectorAll('.nav-links a');
-  const sections = Array.from(links).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
-  const setActive = () => {
-    let idx = 0;
-    sections.forEach((s, i) => { if (s.getBoundingClientRect().top < 120) idx = i; });
-    links.forEach((l, i) => l.style.color = i === idx ? 'var(--stamp-red)' : '');
+  const mbtn = document.getElementById('mbtn');
+  const navLinks = document.getElementById('navLinks');
+  mbtn.addEventListener('click', () => navLinks.classList.toggle('open'));
+  document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  const C = { navy:'#233A5E', gold:'#B4842A', green:'#2E6350', red:'#8C3A2B', purple:'#5B4E82', teal:'#2C6E72', slate:'#8C8A7F' };
+
+  // Mechanism chart
+  new Chart(document.getElementById('mechanismChart').getContext('2d'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Price Monitoring', 'Deviation Calculation', 'Market Operation', 'Safeguards & Review'],
+      datasets: [{ data: [25,25,25,25], backgroundColor: [C.navy, C.teal, C.gold, C.purple], borderWidth:2, borderColor:'#FBFAF6' }]
+    },
+    options: { responsive:true, plugins:{ legend:{ position:'bottom', labels:{ padding:16, usePointStyle:true } } } }
+  });
+
+  // GCBI chart
+  new Chart(document.getElementById('gcbiChart').getContext('2d'), {
+    type: 'doughnut',
+    data: {
+      labels: ['USD (30%)','EUR (25%)','CNY (15%)','JPY (10%)','GBP (10%)','CHF (10%)'],
+      datasets: [{ data:[30,25,15,10,10,10], backgroundColor:[C.navy,C.purple,C.gold,C.red,C.teal,C.green], borderWidth:2, borderColor:'#FBFAF6' }]
+    },
+    options: { responsive:true, plugins:{ legend:{ position:'bottom', labels:{ padding:16, usePointStyle:true } } } }
+  });
+
+  // Tokenomics chart
+  new Chart(document.getElementById('tokenomicsChart').getContext('2d'), {
+    type: 'pie',
+    data: {
+      labels: ['Public Airdrop (40%)','Liquidity Incentives (20%)','Treasury/Seed Collateral (20%)','Team (10%)','Partnerships (5%)','Reserve (5%)'],
+      datasets: [{ data:[40,20,20,10,5,5], backgroundColor:[C.navy,C.green,C.gold,C.purple,C.teal,C.slate], borderWidth:2, borderColor:'#FBFAF6' }]
+    },
+    options: { responsive:true, plugins:{ legend:{ position:'bottom', labels:{ padding:16, usePointStyle:true } } } }
+  });
+
+  // Market share bar chart
+  new Chart(document.getElementById('marketChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['Centralized','Crypto-Backed','Algorithmic*','GLOVEX Target'],
+      datasets: [
+        { label:'Current (2025)', data:[85,10,0,0], backgroundColor:'rgba(140,58,43,0.7)', borderColor:C.red, borderWidth:1 },
+        { label:'Projected (2028)', data:[80,12,3,5], backgroundColor:'rgba(180,132,42,0.7)', borderColor:C.gold, borderWidth:1 },
+        { label:'Target (2031)', data:[75,13,5,7], backgroundColor:'rgba(46,99,80,0.7)', borderColor:C.green, borderWidth:1 }
+      ]
+    },
+    options: {
+      responsive:true,
+      plugins:{ legend:{ position:'top' }, title:{ display:true, text:'Stablecoin Market Share Projection (%)' } },
+      scales:{ y:{ beginAtZero:true, max:100, title:{ display:true, text:'Market Share (%)' } } }
+    }
+  });
+
+  // Historical data (2004-2024)
+  const years = [2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024];
+  const valueData = {
+    GLVX:[1.00,1.00,1.02,1.04,1.06,1.05,1.06,1.07,1.08,1.06,1.07,1.08,1.08,1.08,1.08,1.08,1.09,1.08,1.09,1.09,1.09],
+    USD:[1.00,0.98,0.95,1.02,1.08,1.03,1.05,1.10,1.12,1.06,1.04,1.08,1.05,1.03,1.01,0.98,0.94,0.97,1.02,1.05,1.03],
+    EUR:[1.00,1.02,1.10,1.14,1.12,1.03,1.03,1.06,1.06,0.98,0.95,0.95,0.95,0.95,0.90,0.86,0.88,0.87,0.90,0.90,0.91],
+    CNY:[1.00,1.02,1.05,1.10,1.21,1.18,1.24,1.32,1.37,1.23,1.23,1.30,1.25,1.22,1.17,1.13,1.10,1.15,1.19,1.21,1.21],
+    JPY:[1.00,0.98,0.95,0.90,0.85,0.91,0.89,0.96,0.99,0.96,0.89,0.88,0.90,0.89,0.90,0.85,0.77,0.76,0.78,0.79,0.97],
+    GBP:[1.00,1.02,1.08,1.07,1.06,0.98,0.99,1.00,0.99,0.90,0.86,0.84,0.80,0.76,0.73,0.69,0.71,0.71,0.69,0.73,0.70],
+    CHF:[1.00,1.03,1.08,1.18,1.28,1.24,1.28,1.36,1.42,1.29,1.24,1.35,1.33,1.30,1.25,1.23,1.20,1.22,1.28,1.30,1.29]
   };
-  document.addEventListener('scroll', setActive, { passive: true });
-  setActive();
+  const volatilityData = {
+    GLVX:[0,0,0.82,1.63,1.70,1.41,1.22,1.15,1.08,0.82,0.96,0.94,0.82,0.82,0.82,0.82,0.47,0.47,0.47,0.47,0.52],
+    USD:[0,0,2.50,3.61,4.27,2.72,2.36,2.65,3.56,2.65,1.63,2.16,1.91,1.63,1.41,2.65,3.56,2.94,3.30,2.45,2.81],
+    EUR:[0,0,4.08,4.32,3.74,4.32,3.56,4.08,5.35,5.89,3.30,4.08,4.50,5.35,3.74,2.94,1.41,1.26,2.16,2.16,3.45],
+    CNY:[0,0,1.50,2.50,4.50,4.00,3.74,4.91,6.24,5.89,3.74,4.50,3.91,3.30,2.94,2.16,2.16,2.87,2.45,2.18,3.18],
+    JPY:[0,0,1.50,2.50,3.54,2.87,2.16,3.56,5.35,5.00,3.74,3.30,3.30,4.50,4.50,2.94,4.97,5.35,4.26,4.62,4.23],
+    GBP:[0,0,3.09,3.30,2.16,4.50,4.72,4.08,5.35,6.24,5.00,4.50,4.32,3.30,2.65,2.94,1.63,1.63,1.63,2.16,5.12],
+    CHF:[0,0,2.50,4.08,5.00,3.74,3.09,4.50,6.24,5.89,3.30,5.35,4.72,3.30,2.94,1.41,1.63,2.16,3.09,2.45,2.67]
+  };
+
+  function lineSet(label, data, color, thick){
+    return { label, data, borderColor:color, backgroundColor: thick ? color+'22' : 'transparent', borderWidth: thick?4:2, tension:0.4, pointRadius:0, fill: !!thick };
+  }
+
+  new Chart(document.getElementById('valueChart').getContext('2d'), {
+    type:'line',
+    data:{ labels: years, datasets:[
+      lineSet('GLOVEX (Basket)', valueData.GLVX, C.navy, true),
+      lineSet('USD', valueData.USD, C.slate),
+      lineSet('EUR', valueData.EUR, C.purple),
+      lineSet('CNY', valueData.CNY, C.gold),
+      lineSet('JPY', valueData.JPY, C.red),
+      lineSet('GBP', valueData.GBP, C.teal),
+      lineSet('CHF', valueData.CHF, C.green)
+    ]},
+    options:{ responsive:true, interaction:{ mode:'index', intersect:false }, scales:{ y:{ title:{display:true,text:'Normalized Value (2004 = 1.00)'}, min:0.6, max:1.5 }, x:{ title:{display:true,text:'Year'} } } }
+  });
+
+  new Chart(document.getElementById('volatilityChart').getContext('2d'), {
+    type:'line',
+    data:{ labels: years, datasets:[
+      lineSet('GLOVEX (Basket)', volatilityData.GLVX, C.navy, true),
+      lineSet('USD', volatilityData.USD, C.slate),
+      lineSet('EUR', volatilityData.EUR, C.purple),
+      lineSet('CNY', volatilityData.CNY, C.gold),
+      lineSet('JPY', volatilityData.JPY, C.red),
+      lineSet('GBP', volatilityData.GBP, C.teal),
+      lineSet('CHF', volatilityData.CHF, C.green)
+    ]},
+    options:{ responsive:true, interaction:{ mode:'index', intersect:false }, scales:{ y:{ title:{display:true,text:'Volatility (%) - 3yr window'}, min:0, max:7 }, x:{ title:{display:true,text:'Year'} } } }
+  });
 </script>
 </body>
 </html>
